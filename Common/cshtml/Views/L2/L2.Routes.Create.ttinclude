@@ -1,0 +1,56 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Create";  #>
+  <script> 
+ 	var <#=bs#>_<#=Fs#>_Create_View;
+     g_Router.route("/<#=Bs#>/:<#=b#>/<#=Fs#>/Create", function (<#=b#>, params) {
+         <#=bs#>_<#=B#>_ID = <#=b#>;
+         <#=bs#>_<#=B#>_Name = params.<#=B#>Name;
+     <#//if (DEBUG) { console.log("Breadcrumb Start !"); } #>
+         if (DEBUG) { console.log("Breadcrumb Start !"); }
+     <#//g_Breadcrumb_Show([ #>
+         g_Breadcrumb_Show([
+                 [g_B_T_<#=CS#>,  String.format("javascript:g_Router.navigate('/')")],
+                 [g_B_T_<#=Bs#>, String.format("javascript:g_Router.navigate('/<#=Bs#>')")],
+                 [<#=bs#>_<#=B#>_GetName(), String.format("javascript:g_Router.navigate('/<#=Bs#>')")],
+                 [g_B_T_<#=Bs#>_<#=Fs#>, String.format("javascript:g_Router.navigate('/<#=Bs#>/{0}/<#=Fs#>?<#=B#>Name={1}')", <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name)],
+				 [g_T_Globale_Create, ],
+         ]);
+        if (DEBUG) { console.log("Breadcrumb End !"); }
+        if (DEBUG) { console.log("View initialization Start !"); }
+         try { <#=bs#>_<#=Fs#>_Create_View.destroy(); } catch (e) { if (DEBUG) { console.log(e) } }
+         <#=bs#>_<#=Fs#>_Create_View = new kendo.View(
+                    '<#=bs#>_<#=Fs#>_Create_Template',
+               {
+                   model: {<#=B#>ID : <#=b#>}, evalTemplate: true,
+                   show: function () { <#=bs#>_<#=Fs#>_Create_Route_Event_Show(); },
+                    hide: function () { <#=bs#>_<#=Fs#>_Create_Route_Event_Hide(); }
+               });
+         g_Var_Current_View = <#=bs#>_<#=Fs#>_Create_View;
+        if (DEBUG) { console.log("View initialization End !"); }
+        if (DEBUG) { console.log("View show In Start !"); }
+         g_Layout.showIn("#g_App_Body", <#=bs#>_<#=Fs#>_Create_View, "swap");
+        if (DEBUG) { console.log("View show In End !"); }
+    });
+
+
+     function <#=bs#>_<#=Fs#>_Create_Route_Event_Show() {
+        if (DEBUG) { console.log("View Show Event Start !"); }
+
+        if (DEBUG) { console.log("View Show Event End !"); }
+    }
+
+     function <#=bs#>_<#=Fs#>_Create_Route_Event_Hide() {
+        if (DEBUG) { console.log("View Hide Event Start !"); }
+        if (g_Var_Current_View != <#=bs#>_<#=Fs#>_Create_View) {
+            <#=bs#>_<#=Fs#>_Create_View.destroy();
+            if (DEBUG) { console.log("The view is destroyed !!"); }
+        }
+        if (DEBUG) { console.log("View Hide Event End !"); }
+    }
+</script>  
+
+
+
+
+
+ 

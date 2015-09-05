@@ -1,0 +1,7 @@
+﻿<#
+string tableName = "CS_Engageement_Item_Type";
+string className = "EngageementItemType";
+#>
+
+<#@ include file="T4/EnumFromDB.ttinclude" #>     
+ 

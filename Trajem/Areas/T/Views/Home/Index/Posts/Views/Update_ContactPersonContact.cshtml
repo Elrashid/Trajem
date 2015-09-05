@@ -1,0 +1,183 @@
+<script id="contacts_Update_ContactPersonContact_Template" type="text/x-kendo-template">
+    <div class="col s12">
+        <div class="section">
+            <div class="container">
+                @model  ERP.Core.BL.Models.ContactsModels.PersonEdit
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { role = "form", id = "contacts_Update_ContactPersonContact_Form", Name = "contacts_Update_ContactPersonContact_Form" }))
+                {
+
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class=" ">
+                                <label for="ArFirstName"> @Html.DisplayNameFor(model => model.ArFirstName)</label>
+                                <table width="100%" style="direction:RTL;">
+                                    <tr>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ArFirstName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.ArFirstName) })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ArMiddleName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.ArMiddleName) })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.ArLastName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.ArLastName) })
+                                        </td>
+                                    </tr>
+                                </table>
+                                <span class="k-invalid-msg" data-for="ArFirstName"></span>
+                                <span class="k-invalid-msg" data-for="ArMiddleName"></span>
+                                <span class="k-invalid-msg" data-for="ArLastName"></span>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="">
+                                <label for="EnFirstName"> @Html.DisplayNameFor(model => model.EnFirstName)</label>
+                                <table width="100%">
+                                    <tr>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.EnFirstName, new { @class = " form-control", placeholder = Html.DisplayNameFor(model => model.EnFirstName) })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.EnMiddleName, new { @class = " form-control", placeholder = Html.DisplayNameFor(model => model.EnMiddleName) })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.EnLastName, new { @class = " form-control", placeholder = Html.DisplayNameFor(model => model.EnLastName) })
+                                        </td>
+                                    </tr>
+                                </table>
+                                <span class="k-invalid-msg" data-for="EnFirstName"></span>
+                                <span class="k-invalid-msg" data-for="EnMiddleName"></span>
+                                <span class="k-invalid-msg" data-for="EnLastName"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class=""input-field">
+                                <label for="Note"> @Html.DisplayNameFor(model => model.Note)</label>
+                                @Html.TextAreaFor(model => model.Note, new { @class = "materialize-textarea" })
+                                <span class="k-invalid-msg" data-for="Note"></span>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="">
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+ 
+                        <div class="col s12 m6">
+                            <div class="">
+                                <label for="NationalityID"> @Html.DisplayNameFor(model => model.NationalityID)</label>
+                                @(Html.Kendo().DropDownListFor(model => model.NationalityID).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("Contacts_Update_ContactPersonContact_NationalityID_Read", "Home")); }).ToClientTemplate())
+                                <span class="k-invalid-msg" data-for="NationalityID"></span>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.HiddenFor(model => model.ID)
+                }
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <a class="waves-effect waves-light btn" href="javascript:contacts_Update_ContactPersonContact_Save_Main(); ">@Globale.SaveChanges</a>
+                        <a class="waves-effect waves-light btn" href="javascript: g_Router.navigate(String.format('/Contacts'));">@Globale.Cancel</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+
+    var contacts_Update_ContactPersonContact_Save_Statues = 0;
+    function contacts_Update_ContactPersonContact_Save_Main() {
+        try {
+            if (contacts_Update_ContactPersonContact_Save_Statues == 0) {
+                contacts_Update_ContactPersonContact_Save_Statues = 1;
+                contacts_Update_ContactPersonContact_Save_Involk()
+            }
+        } catch (e) {
+            NS.error_Handler(contacts_Update_ContactPersonContact_Save_Statues);
+        }
+    }
+
+
+
+
+    function contacts_Update_ContactPersonContact_Save_Involk() {
+        var isValid = contacts_Update_ContactPersonContact_Save_valid();
+        if (isValid) {
+            contacts_Update_ContactPersonContact_Save_Send();
+        }
+    }
+
+    function contacts_Update_ContactPersonContact_Save_valid() {
+        var validator = $('#contacts_Update_ContactPersonContact_Form').kendoValidator().data("kendoValidator");
+        var isValid = validator.validate();
+        if (!isValid) {
+            var errors = validator.errors();
+            NS.shwoToastrWarning(errors[0]);
+            contacts_Update_ContactPersonContact_Save_Statues = 0;
+        }
+        return isValid;
+    }
+
+
+    function contacts_Update_ContactPersonContact_Save_Send() {
+        NS.shwoToastrProssing();
+        var myfrm = jQuery("#contacts_Update_ContactPersonContact_Form");
+        var postUrl = '@Url.Action("Contacts_Update", "Home", new { Area = "ERP" })';
+        var postData = myfrm.serializeArray();
+        $.post(postUrl, postData)
+            .always(function (data, textStatus, errorThrown) {
+                if (textStatus == "success") {
+                    ///////////////////////////////////////////////////////
+                    if (data.Success == "1") {
+                        contacts_Update_ContactPersonContact_Save_Statues = 2;
+                        NS.shwoToastrSuccess();
+                        g_Router.navigate(String.format('/Contacts'))
+                        contacts_Update_ContactPersonContact_Save_Statues = 0;
+                    } else {
+                        NS.error_Handler(contacts_Update_ContactPersonContact_Save_Statues, data.ex);
+                        contacts_Update_ContactPersonContact_Save_Statues = 0;
+                    }
+                    //////////////////////////////////////////////////////
+                } else {
+                    NS.error_Handler(contacts_Update_ContactPersonContact_Save_Statues, errorThrown);
+                    contacts_Update_ContactPersonContact_Save_Statues = 0;
+                }
+            })
+        kendo.ui.progress($("#g_App_Body"), false);
+
+    }
+
+
+
+
+
+</script>
+

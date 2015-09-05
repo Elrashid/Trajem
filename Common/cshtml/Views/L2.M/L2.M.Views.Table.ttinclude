@@ -1,0 +1,59 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+  <div class="table-responsive">
+  <table class="table table-condensed table-striped table-bordered table-hover no-margin">
+    <thead>
+		<tr>
+			<th>#=g_T_Globale_Actions#</th>
+      <#  foreach(var prop in IndexClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>()) { #>
+			<th class="<#=Hidden(prop)#>">@Html.DisplayNameFor(m => m.<#=prop.Name#>)</th>
+		<#}#>
+		</tr>
+    </thead>
+    <tbody>
+	 # for (var i = 0; i < data.length; i++) { #
+      <tr>
+        <td>
+           <div class="btn-group">
+            <button data-toggle="dropdown" class="btn btn-primary  btn-xs dropdown-toggle" data-original-title="" title="">
+              #=g_T_Globale_Actions#
+              <span class="caret">
+              </span>
+            </button>
+            <ul class="dropdown-menu">
+              # if(!data[i].IsDeleted) {#  
+                  <# if(mvcLevels.Nav !="" ) foreach(var nav in mvcLevels.Nav.Split(',')) { #>
+                      <li>
+                        <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>/{1}/<#=nav#>?<#=B#>Name={2}&<#=B#>_<#=F#>_Name={3}',<#=bs#>_<#=B#>_ID, #:data[i].ID# ,<#=bs#>_<#=B#>_Name, '#:data[i].Name#' ));">#=g_B_T_<#=Bs#>_<#=nav#>#</a>
+                      </li>
+                  <#}#>
+				  <# if(EditClasses_CodeClass.Any()){#>
+				  # if (( <#=bs#>_<#=Fs#>_Update_Class_Types.indexOf(data[i].Type) > -1) && (data[i].Type != null)){ #
+				 	  <li>
+				       <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>/Update_{1}/{2}?<#=B#>Name={3}', <#=bs#>_<#=B#>_ID,'#:data[i].Type#' ,#:data[i].ID# , <#=bs#>_<#=B#>_Name  ));">#=g_T_Globale_Update#</a>
+					  </li> 
+				  # } #
+				  <#}#>
+              <li>
+                <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>/Delete/{1}?<#=B#>Name={2}',<#=bs#>_<#=B#>_ID , #:data[i].ID# , <#=bs#>_<#=B#>_Name ));">#=g_T_Globale_Delete#</a>
+              </li>
+              # } #
+              # if( data[i].IsDeleted) {#
+              <li>
+                <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>/Undelete/{1}?<#=B#>Name={2}', <#=bs#>_<#=B#>_ID ,#:data[i].ID# , <#=bs#>_<#=B#>_Name  ));">#=g_T_Globale_Undelete#</a>
+              </li>
+              # } #
+            </ul>
+          </div>
+        </td>
+        <#  foreach(var prop in IndexClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>()) { #> 
+         <td  class="<#=Hidden(prop)#>" # if(data[i].IsDeleted) {# style='text-decoration:line-through' # } # >
+           <span class="name">#: data[i].<#=prop.Name#> #</span>
+        </td>
+		<#}#>
+      </tr>
+      # } #
+    </tbody>
+  </table>
+</div>
+
+

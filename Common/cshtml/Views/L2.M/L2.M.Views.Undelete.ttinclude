@@ -1,0 +1,74 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Undelete";  #>
+  <script id="branchs_Facilities_Undelete_Template" type="text/x-kendo-template">
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    @Globale.RequestConfirmation
+                </div>
+
+
+                <div class="panel-footer">
+                    <a href="javascript:branchs_Facilities_UnDelete_Main(#=id#); ">@Globale.Restore</a> |
+                <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>?<#=B#>Name={1}', <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name ));">@Globale.Cancel</a>
+                </div>
+            </div>
+
+
+        </div>
+
+    </script>
+
+
+
+
+
+    <script>
+
+        var branchs_Facilities_UnDelete_Statues = 0;
+        function branchs_Facilities_UnDelete_Main(id) {
+            try {
+                if (branchs_Facilities_UnDelete_Statues == 0) {
+                    branchs_Facilities_UnDelete_Statues = 1;
+                    branchs_Facilities_UnDelete_Involk(id);
+                }
+            } catch (e) {
+                NS.error_Handler(branchs_Facilities_UnDelete_Statues);
+            }
+        }
+
+
+        function branchs_Facilities_UnDelete_Involk(id) {
+            NS.shwoToastrProssing();
+            var myfrm = jQuery("#branchs_Facilities_UnDelete_Form");
+            var postUrl = '@Url.Action("branchs_Facilities_UnDelete", "<#=c#>", new { Area = "<#=a#>" })';
+            var postData = { id: id, } ;
+            $.post(postUrl, postData)
+                .always(function (data, textStatus, errorThrown) {
+                    if (textStatus == "success") {
+                        ///////////////////////////////////////////////////////
+                        if (data.Success == "1") {
+                            branchs_Facilities_UnDelete_Statues = 2;
+                            NS.shwoToastrSuccess();
+							g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>?<#=B#>Name={1}', <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name )) ;
+							branchs_Facilities_UnDelete_Statues = 0;
+                        } else {
+                            NS.error_Handler(branchs_Facilities_UnDelete_Statues, data.ex);
+                        }
+                        //////////////////////////////////////////////////////
+                    } else {
+                        NS.error_Handler(branchs_Facilities_UnDelete_Statues, errorThrown);
+                    }
+                })
+            branchs_Facilities_UnDelete_Statues = 0;
+            kendo.ui.progress($("#app_Body"), false);
+
+        }
+
+
+
+
+
+    </script>

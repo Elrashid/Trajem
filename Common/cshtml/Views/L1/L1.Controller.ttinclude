@@ -1,0 +1,313 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+using Kendo.Mvc.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+ using Kendo.Mvc.Extensions;
+using System.Web.Mvc;
+using <#=a#>.Core.BL.Models.<#=Bs#>Models;
+
+namespace Law.Web.Areas.<#=a#>.Controllers
+{
+    public partial class <#=c#>Controller
+    {
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult  <#=Bs#>_Read([DataSourceRequest] DataSourceRequest request)
+        {
+              try
+            {
+                var result = unitOfWork.<#=B#>Manager.All();
+                return Json(new { Success = 1, ex = "", mod = result });
+            }
+            catch (Exception ex)
+            {
+                var exp = ex.InnerException ?? ex;
+                return Json(new { Success = 0, ex = exp.ToString() });
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+
+		 [HttpPost]
+        public JsonResult <#=Bs#>_Get(int id)
+        {
+            try
+            {
+                var result = unitOfWork.<#=B#>Manager.Get(id);
+                return Json(new { Success = 1, ex = "", mod = result });
+            }
+            catch (Exception ex)
+            {
+                var exp = ex.InnerException ?? ex;
+                return Json(new { Success = 0, ex = exp.ToString() });
+            }
+
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+
+        [HttpPost]
+        public JsonResult <#=Bs#>_Create(<#=CreateClass_CodeClass.Name#> mod)
+        {
+            try
+            {
+                if (mod != null && ModelState.IsValid)
+                {
+
+                    unitOfWork.<#=B#>Manager.Add(mod);
+                    return Json(new { Success = 1, ex = "" });
+                }
+                return Json(new { Success = 0, ex = new Exception("pay != null && ModelState.IsValid").Message.ToString() });
+            }
+            catch (Exception ex)
+            {
+                var exp = ex.InnerException ?? ex;
+                return Json(new { Success = 0, ex = exp.ToString() });
+            }
+
+        } 
+
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+		 [HttpPost]
+        public JsonResult <#=Bs#>_Update(<#=EditClass_CodeClass.Name#> mod)
+        {
+            try
+            {
+                if (mod != null && ModelState.IsValid)
+                {
+
+                    unitOfWork.<#=B#>Manager.Update(mod);
+                    return Json(new { Success = 1, ex = "" });
+                }
+                return Json(new { Success = 0, ex = new Exception("pay != null && ModelState.IsValid").Message.ToString() });
+            }
+            catch (Exception ex)
+            {
+                var exp = ex.InnerException ?? ex;
+                return Json(new { Success = 0, ex = exp.ToString() });
+            }
+
+        }         
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+        [HttpPost]
+        public JsonResult <#=Bs#>_Delete(int id)
+        {
+            try
+            {
+
+
+                unitOfWork.<#=B#>Manager.Delete(new <#=IndexClass_CodeClass.Name#>() { ID = id });
+                return Json(new { Success = 1, ex = "" });
+
+            }
+            catch (Exception ex)
+            {
+                var exp = ex.InnerException ?? ex;
+                return Json(new { Success = 0, ex = exp.ToString() });
+            }
+
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+
+        [HttpPost]
+        public JsonResult <#=Bs#>_UnDelete(int id)
+        {
+            try
+            {
+
+                unitOfWork.<#=B#>Manager.UnDelete(new <#=IndexClass_CodeClass.Name#>() { ID = id });
+                return Json(new { Success = 1, ex = "" });
+
+            }
+            catch (Exception ex)
+            {
+                var exp = ex.InnerException ?? ex;
+                return Json(new { Success = 0, ex = exp.ToString() });
+            }
+
+        }
+		 
+		//------------------------------------------------------------------------------------------------------------------------------------------------
+		<#foreach(EnvDTE.CodeProperty prop in  get_Type_DropDown(CreateClass_CodeClass)){ #>
+	    public JsonResult <#=Bs#>_Create_<#=prop.Name#>_Read()
+        {
+            try
+            {
+
+                return Json(unitOfWork.xxxxxxxxxxManager.All(), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+		<#}#>
+
+
+		<#foreach(EnvDTE.CodeProperty prop in  get_Type_DropDown(EditClass_CodeClass)){ #>
+	    public JsonResult <#=Bs#>_Update_<#=prop.Name#>_Read()
+        {
+            try
+            {
+
+                return Json(unitOfWork.xxxxxxxxxxManager.All(), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+		<#}#>
+		
+		<#foreach(EnvDTE.CodeProperty prop in  get_Type_DropDownWithFilter(CreateClass_CodeClass)){ #>
+        public JsonResult <#=Bs#>_Create_<#=prop.Name#>_Read (int id)
+        {
+            try
+            {
+
+                return Json(unitOfWork.xxxxxxxxxxManager.All().Where(x=>x.xxxxxxxxxx == id), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------       
+	   		<#}#>
+
+		<#foreach(EnvDTE.CodeProperty prop in  get_Type_DropDownWithFilter(EditClass_CodeClass)){ #>
+        public JsonResult <#=Bs#>_Update_<#=prop.Name#>_Read (int id)
+        {
+            try
+            {
+
+                return Json(unitOfWork.xxxxxxxxxxManager.All().Where(x=>x.xxxxxxxxxx == id), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------       
+	   		<#}#>
+
+
+			   	<#foreach(EnvDTE.CodeProperty prop in  get_Type_Cascade(CreateClass_CodeClass)){ #>
+        public JsonResult <#=Bs#>_Create_<#=prop.Name#>_Read (int id)
+        {
+            try
+            {
+
+                return Json(unitOfWork.xxxxxxxxxxManager.All().Where(x=>x.xxxxxxxxxx == id), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------       
+	   		<#}#>
+
+		<#foreach(EnvDTE.CodeProperty prop in  get_Type_Cascade(EditClass_CodeClass)){ #>
+        public JsonResult <#=Bs#>_Update_<#=prop.Name#>_Read (int id)
+        {
+            try
+            {
+
+                return Json(unitOfWork.xxxxxxxxxxManager.All().Where(x=>x.xxxxxxxxxx == id), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------       
+	   		<#}#>
+
+		<#foreach(EnvDTE.CodeProperty prop in  get_Type_Tel(CreateClass_CodeClass)){ #>
+
+	    public JsonResult <#=Bs#>_Create_<#=get_Type(prop).Info#>CountryCode_Read()
+    {
+        try
+        {
+
+            return Json(unitOfWork.CountryCodeManager.All(), JsonRequestBehavior.AllowGet);
+
+        }
+        catch (System.Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return Json(ModelState.ToDataSourceResult());
+        }
+    }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+        public JsonResult <#=Bs#>_Create_<#=get_Type(prop).Info#>AreaCode_Read (int id)
+        {
+            try
+            {
+
+                return Json(unitOfWork.AreaCodeManager.All().Where(x=>x.CountryCodeID == id), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+	<#}#>
+
+
+	<#foreach(EnvDTE.CodeProperty prop in  get_Type_Tel(EditClass_CodeClass)){ #>
+
+	    public JsonResult <#=Bs#>_Update_<#=get_Type(prop).Info#>CountryCode_Read()
+    {
+        try
+        {
+
+            return Json(unitOfWork.CountryCodeManager.All(), JsonRequestBehavior.AllowGet);
+
+        }
+        catch (System.Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return Json(ModelState.ToDataSourceResult());
+        }
+    }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+        public JsonResult <#=Bs#>_Update_<#=get_Type(prop).Info#>AreaCode_Read (int id)
+        {
+            try
+            {
+
+                return Json(unitOfWork.AreaCodeManager.All().Where(x=>x.CountryCodeID == id), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------------------------------------------
+	<#}#>
+
+    }
+}

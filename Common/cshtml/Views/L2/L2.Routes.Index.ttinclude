@@ -1,0 +1,80 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Index";  #>
+  <script>
+    var <#=bs#>_<#=Fs#>_View;
+     g_Router.route("/<#=Bs#>/:<#=b#>/<#=Fs#>", function (<#=b#>, params) {
+	     <#=bs#>_<#=B#>_ID = <#=b#>;
+         <#=bs#>_<#=B#>_Name = params.<#=B#>Name;
+        if (DEBUG) { console.log("Breadcrumb Start !"); }
+        g_Breadcrumb_Show([
+               [g_B_T_<#=CS#>,  String.format("javascript:g_Router.navigate('/')")],
+               [g_B_T_<#=Bs#>, String.format("javascript:g_Router.navigate('/<#=Bs#>')")],
+               [<#=bs#>_<#=B#>_GetName(), String.format("javascript:g_Router.navigate('/<#=Bs#>')")],
+               [g_B_T_<#=Bs#>_<#=Fs#>, String.format("javascript:g_Router.navigate('/<#=Bs#>/{0}/<#=Fs#>?<#=B#>Name={1}')", <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name)],
+        ]);
+        if (DEBUG) { console.log("Breadcrumb End !"); }
+        if (DEBUG) { console.log("View initialization Start !"); }
+        try { <#=bs#>_<#=Fs#>_View.destroy(); } catch (e) { if (DEBUG) { console.log(e) } }
+        <#=bs#>_<#=Fs#>_View = new kendo.View(
+                '<#=bs#>_<#=Fs#>_Template',
+            {
+                model: {}, evalTemplate: true,
+                show: function () { <#=bs#>_<#=Fs#>_Route_Events_Show(); },
+                hide: function () { <#=bs#>_<#=Fs#>_Route_Events_Hide(); }
+            });
+        g_Var_Current_View = <#=bs#>_<#=Fs#>_View;
+        if (DEBUG) { console.log("View initialization End !"); }
+        if (DEBUG) { console.log("View show In Start !"); }
+        g_Layout.showIn("#g_App_Body", <#=bs#>_<#=Fs#>_View, "swap");
+        if (DEBUG) { console.log("View show In End !"); }
+		<#=bs#>_<#=Fs#>_Route_Data_Request(<#=b#>);
+    });
+
+
+    function <#=bs#>_<#=Fs#>_Route_Events_Show() {
+        if (DEBUG) { console.log("View Show Event Start !"); }
+		 
+        if (DEBUG) { console.log("View Show Event End !"); }
+
+    }
+    function <#=bs#>_<#=Fs#>_Route_Events_Hide() {
+        if (DEBUG) { console.log("View Hide Event Start !"); }
+        if (g_Var_Current_View != <#=bs#>_<#=Fs#>_View) {
+            <#=bs#>_<#=Fs#>_View.destroy();
+            if (DEBUG) { console.log("The view is destroyed !!"); }
+        }
+        if (DEBUG) { console.log("View Hide Event End !"); }
+    }
+
+	 
+	 function <#=bs#>_<#=Fs#>_Route_Data_Request(<#=b#>) {
+              if (DEBUG) { console.log("Data Request Start !"); }
+              kendo.ui.progress($("#g_App_Body"), true);
+              jQuery(function () {
+              var postUrl = '@Url.Action("<#=Bs#>_<#=Fs#>_Read", "<#=c#>", new { Area = "<#=a#>" })';
+            var postData = { id: <#=b#>  }
+            if (DEBUG) { console.log("Data Request ,Sending  Start !"); }
+            $.post(postUrl, postData)
+            .done(function (data) {
+            if (DEBUG) { console.log("Data Request ,Sending  End !"); }
+            if (DEBUG) { console.log("Data Request ,Assigning  Start !"); }
+            if (g_Var_Current_View == <#=bs#>_<#=Fs#>_View) {
+              if (DEBUG) { console.log("g_Var_Current_View == <#=bs#>_<#=Fs#>_View!"); }
+              var <#=bs#>_<#=Fs#>_Table_Template = kendo.template($("#<#=bs#>_<#=Fs#>_Table_Template").html());
+              $("#<#=bs#>_<#=Fs#>_Table_Viewer").html(<#=bs#>_<#=Fs#>_Table_Template(data.mod));
+              kendo.ui.progress($("#g_App_Body"), false);
+              }
+
+              if (DEBUG) { console.log("Data Request ,Assigning  End !"); }
+              kendo.ui.progress($("#g_App_Body"), false);
+              })
+              });
+              if (DEBUG) { console.log("Data Request End !"); }
+            }
+
+
+</script>
+ 
+
+
+

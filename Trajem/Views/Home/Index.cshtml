@@ -1,31 +1,162 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<html lang='ar-AE'>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="@Url.Content("~/Content/materialize.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo/2015.1.318/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2015.1.318/kendo.material.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/kendo/2015.1.318/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/2015.1.318/kendo.ui.core.min.js"></script>
+    <script src="@Url.Content("~/Scripts/materialize.js")"></script>
+    <script src="@Url.Content("~/Scripts/String.js")"></script>
+
+
+
+</head>
+<body>
+    <script>
+
+
+
+        var DEBUG = true;
+    </script>
+    <header>
+
+        <nav class="top-nav z-depth-2">
+            <div class="container ">
+                <div class="nav-wrapper"><a class="  page-title"># Tarjem </a></div>
+            </div>
+        </nav>
+
+
+    </header>
+    <main>
+        <div class="container">
+
+            <div class="row z-depth-4">
+                <div class="col m12 s12">
+                    <div class="card-panel red lighten-5">
+                        <div class="card-content  center-align flow-text">
+                            <span class="card-title">The Easiest Way To Translate your legal  documents in the UAE</span>
+                            <p>HOW IT WORKS,</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m2 s12">
+                    <div class="card-panel red lighten-4">
+                        <div class="card-content white-text center-align flow-text">
+                            <span class="card-title"><i class="material-icons">local_post_office</i> </span>
+                            <p>1 Post </p>
+                            <p>A Request For Human Translation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m4  s12">
+                    <div class="card-panel red lighten-3">
+                        <div class="card-content white-text center-align flow-text">
+                            <span class="card-title"><i class="material-icons">select_all</i></span>
+                            <p>2 Select</p>
+                            <p>An Online Quote For Your Project</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col m2  s12">
+                    <div class="card-panel red lighten-2">
+                        <div class="card-content white-text center-align flow-text">
+                            <span class="card-title"><i class="material-icons">payment</i></span>
+                            <p>3 Pay</p>
+                            <p>The Best Price , Get the Fastest Translation  </p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col m4  s12">
+                    <div class="card-panel red lighten-1">
+                        <div class="card-content white-text center-align flow-text">
+                            <span class="card-title"><i class="material-icons">track_changes</i></span>
+                            <p>4 Track</p>
+                            <p>Your Project Has just Started!</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col s12">
+                    <div class="card-panel red accent-1">
+                        <div class="card-content white-text center-align flow-text">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card-panel red lighten-5">
+                @Html.Partial("~/Views/Account/Register.cshtml")
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        function initDrop() {
+            initMaterialize();
+        }
+
+        function initMaterialize() {
+            $(document).ready(function () {
+                $('.collapsible').collapsible({
+                    accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+                });
+
+
+                $('.dropdown-button').dropdown({
+                    inDuration: 300,
+                    outDuration: 225,
+                    constrain_width: false, // Does not change width of dropdown to that of the activator
+                    hover: true, // Activate on hover
+                    gutter: 0, // Spacing from edge
+                    belowOrigin: false // Displays dropdown below the button
+                }
+             );
+
+                Materialize.updateTextFields();
+
+
+
+                $('.datepicker').pickadate({
+                    selectMonths: true, // Creates a dropdown to control month
+                    selectYears: 15 // Creates a dropdown of 15 years to control year
+                });
+
+            });
+
+        }
+
+
+
+        initDrop();
+    </script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+﻿<#
+string tableName = "G_Party_Role_Type";
+string className = "PartyRoleType";
+#>
+
+<#@ include file="T4/EnumFromDB.ttinclude" #>     
+  

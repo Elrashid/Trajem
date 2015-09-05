@@ -1,0 +1,74 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "UnDelete";  #>
+    <script id="<#=bs#>_Undelete_Template" type="text/x-kendo-template">
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    @Globale.RequestConfirmation
+                </div>
+
+
+                <div class="panel-footer">
+                    <a href="javascript:<#=bs#>_UnDelete_Main(#=id#); ">@Globale.Restore</a> |
+                    <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>'));">@Globale.Cancel</a>
+                </div>
+            </div>
+
+
+        </div>
+
+    </script>
+
+
+
+
+
+    <script>
+
+        var <#=bs#>_UnDelete_Statues = 0;
+        function <#=bs#>_UnDelete_Main(id) {
+            try {
+                if (<#=bs#>_UnDelete_Statues == 0) {
+                    <#=bs#>_UnDelete_Statues = 1;
+                    <#=bs#>_UnDelete_Involk(id)
+                }
+            } catch (e) {
+                NS.error_Handler(<#=bs#>_UnDelete_Statues);
+            }
+        }
+
+
+        function <#=bs#>_UnDelete_Involk(id) {
+            NS.shwoToastrProssing();
+            var myfrm = jQuery("#<#=bs#>_UnDelete_Form");
+            var postUrl = '@Url.Action("<#=bs#>_UnDelete", "<#=c#>", new { Area = "<#=a#>" })';
+            var postData = { id: id, };
+            $.post(postUrl, postData)
+                .always(function (data, textStatus, errorThrown) {
+                    if (textStatus == "success") {
+                        ///////////////////////////////////////////////////////
+                        if (data.Success == "1") {
+                            <#=bs#>_UnDelete_Statues = 2;
+                            NS.shwoToastrSuccess();
+                            g_Router.navigate(String.format('/<#=Bs#>'));
+							<#=bs#>_UnDelete_Statues = 0;
+                        } else {
+                            NS.error_Handler(<#=bs#>_UnDelete_Statues, data.ex);
+                        }
+                        //////////////////////////////////////////////////////
+                    } else {
+                        NS.error_Handler(<#=bs#>_UnDelete_Statues, errorThrown);
+                    }
+                })
+            <#=bs#>_UnDelete_Statues = 0;
+            kendo.ui.progress($("#app_Body"), false);
+
+        }
+
+
+
+
+
+    </script>

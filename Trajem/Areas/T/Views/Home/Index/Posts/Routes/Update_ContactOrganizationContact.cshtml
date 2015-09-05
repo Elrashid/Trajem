@@ -1,0 +1,92 @@
+<script>
+      var contacts_Update_ContactOrganizationContact_View;
+      g_Router.route("/Contacts/Update_ContactOrganizationContact/:contact", function (contact, params) {
+          if (DEBUG) { console.log("Breadcrumb Start !"); }
+          g_Breadcrumb_Show([
+              [g_B_T_ERP, String.format("javascript:g_Router.navigate('/')")],
+              [g_B_T_Contacts, String.format("javascript:g_Router.navigate('/Contacts')")],
+               [g_T_Globale_Update, ""],
+          ]);
+          if (DEBUG) { console.log("Breadcrumb End !"); }
+          if (DEBUG) { console.log("View initialization Start !"); }
+          try { contacts_Update_ContactOrganizationContact_View.destroy(); } catch (e) { if (DEBUG) { console.log(e) } }
+          contacts_Update_ContactOrganizationContact_View = new kendo.View(
+                     'contacts_Update_ContactOrganizationContact_Template',
+                 {
+                     model: {}, evalTemplate: true,
+                     show: function () { contacts_Update_ContactOrganizationContact_Route_Events_Show(contact); },
+                     hide: function () { contacts_Update_ContactOrganizationContact_Route_Events_Hide(); },
+                 });
+          g_Var_Current_View = contacts_Update_ContactOrganizationContact_View;
+          if (DEBUG) { console.log("View initialization End !"); }
+          if (DEBUG) { console.log("View show In Start !"); }
+          g_Layout.showIn("#g_App_Body", contacts_Update_ContactOrganizationContact_View, "swap");
+          if (DEBUG) { console.log("View show In End !"); }
+          contacts_Update_ContactOrganizationContact_Route_Data_Request(contact);
+      });
+
+
+
+
+
+      function contacts_Update_ContactOrganizationContact_Route_Events_Show() {
+          if (DEBUG) { console.log("View Show Event Start !"); }
+
+          if (DEBUG) { console.log("View Show Event End !"); }
+
+      }
+
+      function contacts_Update_ContactOrganizationContact_Route_Events_Hide() {
+          if (DEBUG) { console.log("View Hide Event Start !"); }
+          if (g_Var_Current_View != contacts_Update_ContactOrganizationContact_View) {
+              contacts_Update_ContactOrganizationContact_View.destroy();
+              if (DEBUG) { console.log("The view is destroyed !!"); }
+          }
+          if (DEBUG) { console.log("View Hide Event End !"); }
+
+      }
+
+
+
+
+      function contacts_Update_ContactOrganizationContact_Route_Data_Request(contact) {
+          if (DEBUG) { console.log("Data Request Start !"); }
+          kendo.ui.progress($("#g_App_Body"), true);
+          jQuery(function () {
+              var myfrm = jQuery("#contacts_Update_ContactOrganizationContact_Form");
+              var postUrl = '@Url.Action("Contacts_Get_ContactOrganizationContact", "Home", new { Area = "ERP" })';
+              var postData = { id: contact, }
+              if (DEBUG) { console.log("Data Request ,Sending  Start !"); }
+              $.post(postUrl, postData)
+              .done(function (data) {
+                  if (DEBUG) { console.log("Data Request ,Sending  End !"); }
+                  if (DEBUG) { console.log("Data Request ,Assigning  Start !"); }
+                  contacts_Update_ContactOrganizationContact_Route_Data_Request_kendoNumericTextBox = [];
+                  contacts_Update_ContactOrganizationContact_Route_Data_Request_kendoDatePicker = [];
+                  contacts_Update_ContactOrganizationContact_Route_Data_Request_kendodropdownlist = [];
+                  $.each(data.mod, function (key, value) {
+                      if ((contacts_Update_ContactOrganizationContact_Route_Data_Request_kendoDatePicker.indexOf(key) > -1) && (value != null)) {
+                          nDate = new Date((value.match(/\d+/)[0] * 1));
+                          var datePicker = $('#' + key, myfrm).data("kendoDatePicker");
+                          datePicker.value(nDate);
+                      } else if ((contacts_Update_ContactOrganizationContact_Route_Data_Request_kendoNumericTextBox.indexOf(key) > -1) && (value != null)) {
+                          //$("#" + key, myfrm).text(value);
+                          var numerictextbox = $('#' + key, myfrm).data("kendoNumericTextBox");
+                          numerictextbox.value(value);
+                      } else if ((contacts_Update_ContactOrganizationContact_Route_Data_Request_kendodropdownlist.indexOf(key) > -1) && (value != null)) {
+                          //$("#" + key, myfrm).text(value);
+                          var dropdownlist = $('#' + key, myfrm).data("kendoDropDownList");
+                          dropdownlist.value(value);
+                      } else {
+                          $("#" + key, myfrm).val(value);
+                      }
+                  });
+                  Materialize.updateTextFields();
+                  if (DEBUG) { console.log("Data Request ,Assigning  End !"); }
+                  kendo.ui.progress($("#g_App_Body"), false);
+              })
+          });
+          if (DEBUG) { console.log("Data Request End !"); }
+      }
+
+</script>

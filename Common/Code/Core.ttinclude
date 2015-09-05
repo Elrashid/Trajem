@@ -1,0 +1,274 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="envdte" #>
+<#@ assembly name="envdte80" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Windows.Forms.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="EnvDTE" #>  
+<#@ import namespace="System.Text.RegularExpressions" #> 
+<#@ import namespace="System.Resources" #>
+<#@ output extension=".txt" #>
+
+
+//------------------------------------------------------------------------------
+//	
+//    This code was generated from a template.
+//
+//    Manual changes to this file may cause unexpected behavior in your application.
+//    Manual changes to this file will be overwritten if the code is regenerated.
+//
+//------------------------------------------------------------------------------
+ 
+ <# 
+  
+ //string shortName = "Facilities" ;
+ string modelsPath =  @"BL\Models" + @"\" +shortName+ "Models" ;
+ var serviceProvider = (IServiceProvider)this.Host;
+ var dte = (EnvDTE.DTE)serviceProvider.GetService(typeof(EnvDTE.DTE));
+ var projectItems = GetDefinedTypes(dte,modelsPath);
+ var templateProjectItem = (EnvDTE.ProjectItem)dte.Solution.FindProjectItem(Host.TemplateFile) ;
+var _pro =	((EnvDTE.Project)(((EnvDTE.ProjectItem)(templateProjectItem)).ContainingProject)).ProjectItems;
+
+ #>
+ <#
+ 
+  foreach(var item in projectItems)
+     {
+		 #>
+				<#= item.Name  #>
+				<#= item.ProjectItem.FileNames[0] #>
+				<#= item.FullName #>
+				<#= item.FullName.Split('.')[item.FullName.Split('.').Length-2].Replace("Models","") #>
+          <#
+
+		 AddKDisplayAttribute( item ,shortName); 
+		 AddRessorces(item,_pro , shortName);
+		 var properties = item.Members.OfType<EnvDTE.CodeProperty>().ToList();
+		 foreach(var prop in properties) 
+			{ 	 
+				foreach(var attr in prop.Attributes.OfType<EnvDTE.CodeAttribute>()) 
+			{ 	 
+				#>
+				<#= attr.Name #>
+				<#
+            }
+ 			}
+	 }
+  #>
+
+
+
+  <# 
+  
+  //dte.ActiveDocument.ProjectItem.ContainingProject.ProjectItems.AddFolder(@"BL");
+   #>
+  
+  <# 
+	  // AddClassExample(dte);	
+   #>
+
+<#+
+
+  public static EnvDTE.ProjectItem GetProjectItem(EnvDTE.DTE dte, string relativePath)
+ {
+     var projectDir = Path.GetDirectoryName(dte.ActiveDocument.ProjectItem.ContainingProject.FileName);
+     var path = projectDir + "\\" + relativePath + "\\";
+  
+     return GetProjectItem(dte.ActiveDocument.ProjectItem.ContainingProject.ProjectItems, path);
+ }
+  
+   public static EnvDTE.ProjectItem GetProjectItem(EnvDTE.ProjectItems projectItems, string absolutePath)
+ {
+     foreach(EnvDTE.ProjectItem item in projectItems)
+     {
+         if(item.FileNames[0].Equals(absolutePath, StringComparison.OrdinalIgnoreCase)) return item;
+  
+        var result = GetProjectItem(item.ProjectItems, absolutePath);
+ 
+         if(result != null) return result;
+     }
+         
+     return null;
+ }
+
+   public static IEnumerable<EnvDTE.CodeType> GetDefinedTypes(EnvDTE.DTE dte, string path)
+ {
+     var item = GetProjectItem(dte, path);
+  
+     return from projectItem in item.ProjectItems.OfType<EnvDTE.ProjectItem>()
+             where projectItem.FileCodeModel != null && projectItem.FileCodeModel.CodeElements != null
+             from nameSpace in projectItem.FileCodeModel.CodeElements.OfType<EnvDTE.CodeNamespace>()
+             from type in nameSpace.Members.OfType<EnvDTE.CodeType>()
+             where type.Kind != EnvDTE.vsCMElement.vsCMElementEnum
+           select type;
+ }
+
+
+
+  public static void AddKDisplayAttribute(EnvDTE.CodeType type , string shortName)
+{
+     var properties = type.Members.OfType<EnvDTE.CodeProperty>().ToList();
+   // var idProp = properties.FirstOrDefault(p => p.Name.Equals("id", StringComparison.OrdinalIgnoreCase));
+   // if(idProp != null) return idProp;
+  
+
+    foreach(var prop in properties)   
+    {  
+		 
+        var attr = prop.Attributes.OfType<EnvDTE.CodeAttribute>().FirstOrDefault(a => a.Name == "Display");
+        if(attr == null) {
+		prop.AddAttribute("Display",String.Format("Name = \"{0}\", ResourceType = typeof(Resorses.{1}Resorses.{2})"   , prop.Name ,shortName, type.Name));
+		}else{
+		attr.Value = String.Format("Name = \"{0}\", ResourceType = typeof(Resorses.{1}Resorses.{2})"   , prop.Name  ,shortName, type.Name) ;
+		};
+           
+    }
+    
+ }
+
+
+ public static void AddRessorces( EnvDTE.CodeType type ,EnvDTE.ProjectItems proj , string shortName )
+{
+  
+ 	string relativePath = "BL\\Resorses\\" + shortName + "Resorses" ;  
+	var projectDir = Path.GetDirectoryName(type.DTE.ActiveDocument.ProjectItem.ContainingProject.FileName);
+    var path =Path.Combine(projectDir , relativePath,  type.Name + ".resx")   ;
+    var path_en_US =Path.Combine(projectDir , relativePath,  type.Name + ".en-US.resx")   ;
+	//ResXResourceWriter writer = new ResXResourceWriter(File.OpenWrite(path));
+	//ResXResourceWriter writer_en_US = new ResXResourceWriter(File.OpenWrite(path_en_US));
+    var properties = type.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+        Hashtable data = new Hashtable();
+    foreach(var prop in properties)   
+    {   
+		 data.Add(prop.Name, toWords(prop.Name));
+		// writer.AddResource(prop.Name, prop.Name);
+		// writer_en_US.AddResource(prop.Name, prop.Name);
+	} 
+		UpdateResourceFile( data, path);
+		UpdateResourceFile( data, path_en_US);
+	// writer.Close();	
+	// writer_en_US.Close();	
+
+	if (proj.DTE.Solution.FindProjectItem(path) == null){
+		var x = 	proj.AddFromFile(path);
+ 	     x.Properties.Item("CustomTool").Value  ="PublicResXFileCodeGenerator";
+    }
+	if (proj.DTE.Solution.FindProjectItem(path_en_US) == null){
+	 var x = 	proj.AddFromFile(path_en_US);
+ 	    x.Properties.Item("CustomTool").Value  ="PublicResXFileCodeGenerator";
+    }
+	
+	// var projItemObj = (VSProjectItem)projectItem1.Object;
+    //projItemObj.RunCustomTool();
+	//templateProjectItem.ProjectItems.AddFromFile(path);
+	 
+	//var projectItem = GetProjectItem( type.DTE,  path);
+ //  var  projectItemParent =    (EnvDTE.ProjectItem)projectItem.Collection.Parent;
+
+	//projectItemParent.ProjectItems.AddFromFile(path);
+
+	// WARNING: You are entering the dark land of EnvDTE COM. You've been warned
+  
+  //  var projItemObj = (VSProjectItem)projectItem1.Object;
+  //  projItemObj.RunCustomTool();
+
+
+  // templateProjectItem = (EnvDTE.ProjectItem)dte.Solution.FindProjectItem(host.TemplateFile).Collection.Parent;
+ 
+     
+
+
+ 	//templateProjectItem.ProjectItems.AddFromFile(path);
+ //projectItem.Properties.Item("CustomTool").Value  ="PublicResXFileCodeGenerator";
+
+
+	
+	
+	// var resfile = templateProjectItem..ItemOperations.AddNewItem(@"Visual C# Items\Resources File", path) ;
+
+    }
+    
+
+ public static void UpdateResourceFile(Hashtable data, String path)
+    {
+          Hashtable resourceEntries = new Hashtable();
+		string directory = Path.GetDirectoryName(path);
+		if (!Directory.Exists(directory))  Directory.CreateDirectory(directory);
+
+    //Get existing resources
+		if (File.Exists(path)){
+    ResXResourceReader reader = new ResXResourceReader(path);
+    if (reader != null)
+    {
+        IDictionaryEnumerator id = reader.GetEnumerator();
+        foreach (DictionaryEntry d in reader)
+        {
+            if (d.Value == null)
+                resourceEntries.Add(d.Key.ToString(), "");
+            else
+                resourceEntries.Add(d.Key.ToString(), d.Value.ToString());
+        }
+        reader.Close();
+    }
+
+        }
+    //Modify resources here...
+    foreach (String key in data.Keys)
+    {
+        if (!resourceEntries.ContainsKey(key))
+        {
+
+            String value = data[key].ToString();
+            if (value == null) value = "";
+
+            resourceEntries.Add(key, value);
+        }
+    }
+
+    //Write the combined resource file
+        ResXResourceWriter resourceWriter = new ResXResourceWriter(File.OpenWrite(path));
+
+        foreach (String key in resourceEntries.Keys)
+        {
+            resourceWriter.AddResource(key, resourceEntries[key]);
+        }
+        resourceWriter.Generate();
+        resourceWriter.Close();
+
+    }
+
+	 public static string toWords (string txt)
+        {
+		 string result = string.Empty;
+            var r = new Regex(@"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+	
+		  var _words = 	(r.Replace(txt, " ")).Split(' ');
+
+			   foreach (var item in _words)
+        { 
+            switch (item.ToLower())
+            {
+				case "ar":
+					result += " " + "Arabic";
+					break;
+				case "en":
+					result += " " + "English";
+					break;
+                default:
+					result += " " + item ;
+					break;
+            }
+
+        }
+		           return result;
+
+		
+		}
+ #>

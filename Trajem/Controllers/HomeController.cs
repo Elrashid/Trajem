@@ -10,7 +10,7 @@ namespace Trajem.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
         }
 
         public ActionResult About()

@@ -1,0 +1,126 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Update";  #>
+<script id="<#=bs#>_Update_<#=item.Type#>_Template" type="text/x-kendo-template">
+    <div class="col-sm-12">
+
+        <div class="panel panel-default">
+           
+            <div class="panel-body">
+                @model  <#= item.Class.FullName #>
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { role = "form", id = "<#=bs#>_Update_<#=item.Type#>_Form", Name = "<#=bs#>_Update_<#=item.Type#>_Form" }))
+                {
+                  	 	 <#  count = 1; #>
+                 <#foreach (EnvDTE.CodeProperty propCode in HasShow(item.Class,0))
+						{#>
+							   <#@ include file="L1.M.Views.Form.ttinclude" #>
+						<#}#>
+				 
+
+				 <# if (get_Type_Group_Count(item.Class) >0){
+				 	 for (int i = 1; i <= get_Type_Group_Count(item.Class); i++)
+					  {
+				 #>
+				    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well well-sm">
+								 <#  count = 1; #>
+							  <#foreach (EnvDTE.CodeProperty propCode in HasShow(item.Class,i))
+						{#>
+							   <#@ include file="L1.M.Views.Form.ttinclude" #>
+						<#}#>
+							 </div>
+         			    </div>
+	                </div>
+
+				 <#}}#>
+				    @Html.HiddenFor(model => model.ID)
+					}
+					</div>
+
+
+
+            <div class="panel-footer">
+                <a href="javascript:<#=bs#>_Update_<#=item.Type#>_Save_Main(); ">@Globale.SaveChanges</a> |
+                <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>'));">@Globale.Cancel</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</script>
+
+
+
+
+
+<script>
+
+    var <#=bs#>_Update_<#=item.Type#>_Save_Statues = 0;
+    function <#=bs#>_Update_<#=item.Type#>_Save_Main() {
+        try {
+            if (<#=bs#>_Update_<#=item.Type#>_Save_Statues == 0) {
+                <#=bs#>_Update_<#=item.Type#>_Save_Statues = 1;
+                <#=bs#>_Update_<#=item.Type#>_Save_Involk()
+            }
+        } catch (e) {
+            NS.error_Handler(<#=bs#>_Update_<#=item.Type#>_Save_Statues);
+        }
+    }
+
+
+
+
+    function <#=bs#>_Update_<#=item.Type#>_Save_Involk() {
+        var isValid = <#=bs#>_Update_<#=item.Type#>_Save_valid();
+        if (isValid) {
+            <#=bs#>_Update_<#=item.Type#>_Save_Send();
+        }
+    }
+
+    function <#=bs#>_Update_<#=item.Type#>_Save_valid() {
+        var validator = $('#<#=bs#>_Update_<#=item.Type#>_Form').kendoValidator().data("kendoValidator");
+        var isValid = validator.validate();
+        if (!isValid) {
+            var errors = validator.errors();
+            NS.shwoToastrWarning(errors[0]);
+            <#=bs#>_Update_<#=item.Type#>_Save_Statues = 0;
+        }
+        return isValid;
+    }
+
+
+    function <#=bs#>_Update_<#=item.Type#>_Save_Send() {
+        NS.shwoToastrProssing();
+        var myfrm = jQuery("#<#=bs#>_Update_<#=item.Type#>_Form");
+         var postUrl = '@Url.Action("<#=Bs#>_Update", "<#=c#>", new { Area = "<#=a#>" })';
+        var postData = myfrm.serializeArray();
+        $.post(postUrl, postData)
+            .always(function (data, textStatus, errorThrown) {
+                if (textStatus == "success") {
+                    ///////////////////////////////////////////////////////
+                    if (data.Success == "1") {
+                        <#=bs#>_Update_<#=item.Type#>_Save_Statues = 2;
+                        NS.shwoToastrSuccess();
+                        g_Router.navigate(String.format('/<#=Bs#>'))
+                        <#=bs#>_Update_<#=item.Type#>_Save_Statues = 0;
+                    } else {
+                        NS.error_Handler(<#=bs#>_Update_<#=item.Type#>_Save_Statues, data.ex);
+                        <#=bs#>_Update_<#=item.Type#>_Save_Statues = 0;
+                    }
+                    //////////////////////////////////////////////////////
+                } else {
+                    NS.error_Handler(<#=bs#>_Update_<#=item.Type#>_Save_Statues, errorThrown);
+                    <#=bs#>_Update_<#=item.Type#>_Save_Statues = 0;
+                }
+            })
+        kendo.ui.progress($("#g_App_Body"), false);
+
+    }
+
+
+
+
+
+</script>

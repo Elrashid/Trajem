@@ -1,0 +1,416 @@
+<script id="contacts_Create_ContactPersonContact_Template" type="text/x-kendo-template">
+    <div class="col s12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                @model  ERP.Core.BL.Models.ContactsModels.PersonNew
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { role = "form", id = "contacts_Create_ContactPersonContact_Form", Name = "contacts_Create_ContactPersonContact_Form" }))
+                {
+
+				 		 
+				 				 
+                 				 
+
+				 				    <div class="row">
+                        <div class="col s12">
+                            <div class="well well-sm">
+								 							  							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  					<label for="ArFirstName"> @Html.DisplayNameFor(model => model.ArFirstName)</label>
+					<table width="100%" style="direction:RTL;">
+					<tr>
+					<td>
+					@Html.TextBoxFor(m => m.ArFirstName, new { @class = " form-control", style = "direction:RTL;" , placeholder = Html.DisplayNameFor(model => model.ArFirstName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.ArMiddleName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.ArMiddleName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.ArLastName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.ArLastName) })
+					</td>
+					</tr>
+					</table>
+					<span class="k-invalid-msg" data-for="ArFirstName"></span>
+					<span class="k-invalid-msg" data-for="ArMiddleName"></span>
+					<span class="k-invalid-msg" data-for="ArLastName"></span>
+			 
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  					<label for="EnFirstName"> @Html.DisplayNameFor(model => model.EnFirstName)</label>
+					<table width="100%">
+					<tr>
+					<td>
+					@Html.TextBoxFor(m => m.EnFirstName, new { @class = " form-control",  placeholder = Html.DisplayNameFor(model => model.EnFirstName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.EnMiddleName, new { @class = " form-control",  placeholder = Html.DisplayNameFor(model => model.EnMiddleName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.EnLastName, new { @class = " form-control",  placeholder = Html.DisplayNameFor(model => model.EnLastName) })
+					</td>
+					</tr>
+					</table>
+					<span class="k-invalid-msg" data-for="EnFirstName"></span>
+					<span class="k-invalid-msg" data-for="EnMiddleName"></span>
+					<span class="k-invalid-msg" data-for="EnLastName"></span>
+			 
+		  
+ 
+</div>
+</div>
+</div>
+							 </div>
+         			    </div>
+	                </div>
+
+				 				    <div class="row">
+                        <div class="col s12">
+                            <div class="well well-sm">
+								 							  							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  			 
+						<label for="Note"> @Html.DisplayNameFor(model => model.Note)</label>
+                     @Html.TextBoxFor(model => model.Note, new { @class = "form-control"})
+						<span class="k-invalid-msg" data-for="Note"></span>
+			 
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  			<label for="NationalityID"> @Html.DisplayNameFor(model => model.NationalityID)</label>
+				@(Html.Kendo().DropDownListFor(model => model.NationalityID).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_NationalityID_Read", "Home")); }).ToClientTemplate())
+ 				<span class="k-invalid-msg" data-for="NationalityID"></span>
+		  
+ 
+</div>
+</div>
+</div>
+							 </div>
+         			    </div>
+	                </div>
+
+				 				    <div class="row">
+                        <div class="col s12">
+                            <div class="well well-sm">
+								 							  							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  		   						@MvcHtmlString.Create("<script>function contacts_Create_ContactPersonContact_PhoneAreaCode_filter() { return { id: $('\\#PhoneCountryCode').val() }; }<\\/script>")
+						<label for="PhoneContactNumber"> @Html.DisplayNameFor(model => model.PhoneContactNumber)</label>
+						<table width="100%">
+						<tr>
+						<td>
+						@(Html.Kendo().DropDownListFor(model => model.PhoneCountryCode).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("CountryCodeID").DataValueField("CountryCodeID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_PhoneCountryCode_Read", "Home")); }).ToClientTemplate())
+						</td>
+						<td>
+						@(Html.Kendo().DropDownListFor(model => model.PhoneAreaCode).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("AreaCodeID").DataValueField("AreaCodeID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_PhoneAreaCode_Read", "Home").Data("contacts_Create_ContactPersonContact_PhoneAreaCode_filter")).ServerFiltering(true); }).Enable(false).AutoBind(false).CascadeFrom("PhoneCountryCode").ToClientTemplate())
+						</td>
+						<td>
+                     @Html.TextBoxFor(model => model.PhoneContactNumber, new { @class = "form-control"})
+ 						</td>
+						</tr>
+						</table>
+						<span class="k-invalid-msg" data-for="PhoneCountryCode"></span>
+						<span class="k-invalid-msg" data-for="PhoneAreaCode"></span>
+						<span class="k-invalid-msg" data-for="PhoneContactNumber"></span>
+			 
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  		   						@MvcHtmlString.Create("<script>function contacts_Create_ContactPersonContact_FaxAreaCode_filter() { return { id: $('\\#FaxCountryCode').val() }; }<\\/script>")
+						<label for="FaxContactNumber"> @Html.DisplayNameFor(model => model.FaxContactNumber)</label>
+						<table width="100%">
+						<tr>
+						<td>
+						@(Html.Kendo().DropDownListFor(model => model.FaxCountryCode).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("CountryCodeID").DataValueField("CountryCodeID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_FaxCountryCode_Read", "Home")); }).ToClientTemplate())
+						</td>
+						<td>
+						@(Html.Kendo().DropDownListFor(model => model.FaxAreaCode).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("AreaCodeID").DataValueField("AreaCodeID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_FaxAreaCode_Read", "Home").Data("contacts_Create_ContactPersonContact_FaxAreaCode_filter")).ServerFiltering(true); }).Enable(false).AutoBind(false).CascadeFrom("FaxCountryCode").ToClientTemplate())
+						</td>
+						<td>
+                     @Html.TextBoxFor(model => model.FaxContactNumber, new { @class = "form-control"})
+ 						</td>
+						</tr>
+						</table>
+						<span class="k-invalid-msg" data-for="FaxCountryCode"></span>
+						<span class="k-invalid-msg" data-for="FaxAreaCode"></span>
+						<span class="k-invalid-msg" data-for="FaxContactNumber"></span>
+			 
+		  
+ 
+</div>
+</div>
+</div>
+							 </div>
+         			    </div>
+	                </div>
+
+				 				    <div class="row">
+                        <div class="col s12">
+                            <div class="well well-sm">
+								 							  							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  		  	<label for="Email"> @Html.DisplayNameFor(model => model.Email)</label>
+                     @Html.TextBoxFor(model => model.Email, new { @class = "form-control" , @type="email" })
+						<span class="k-invalid-msg" data-for="Email"></span>
+		   
+		    
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+</div>
+</div>
+</div>
+ 
+													 </div>
+         			    </div>
+	                </div>
+
+				 				    <div class="row">
+                        <div class="col s12">
+                            <div class="well well-sm">
+								 							  							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  			 <label for="ArAddress1"> @Html.DisplayNameFor(model => model.ArAddress1)</label>
+			 @Html.TextAreaFor(model =>  model.ArAddress1, new { @class = " form-control", style = "direction:RTL;" }) 
+ 			 <span class="k-invalid-msg" data-for="ArAddress1"></span>
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  			 
+			   <label for="EnAddress1"> @Html.DisplayNameFor(model => model.EnAddress1)</label>
+				@Html.TextAreaFor(model => model.EnAddress1, new { @class = " form-control" }) 
+				 <span class="k-invalid-msg" data-for="EnAddress1"></span>
+			
+		  
+ 
+</div>
+</div>
+</div>
+							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  			 <label for="ArAddress2"> @Html.DisplayNameFor(model => model.ArAddress2)</label>
+			 @Html.TextAreaFor(model =>  model.ArAddress2, new { @class = " form-control", style = "direction:RTL;" }) 
+ 			 <span class="k-invalid-msg" data-for="ArAddress2"></span>
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  			 
+			   <label for="EnAddress2"> @Html.DisplayNameFor(model => model.EnAddress2)</label>
+				@Html.TextAreaFor(model => model.EnAddress2, new { @class = " form-control" }) 
+				 <span class="k-invalid-msg" data-for="EnAddress2"></span>
+			
+		  
+ 
+</div>
+</div>
+</div>
+							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  			 <label for="ArDirections"> @Html.DisplayNameFor(model => model.ArDirections)</label>
+			 @Html.TextAreaFor(model =>  model.ArDirections, new { @class = " form-control", style = "direction:RTL;" }) 
+ 			 <span class="k-invalid-msg" data-for="ArDirections"></span>
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  			 
+			   <label for="EnDirections"> @Html.DisplayNameFor(model => model.EnDirections)</label>
+				@Html.TextAreaFor(model => model.EnDirections, new { @class = " form-control" }) 
+				 <span class="k-invalid-msg" data-for="EnDirections"></span>
+			
+		  
+ 
+</div>
+</div>
+</div>
+							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  			 
+						<label for="PostalCode"> @Html.DisplayNameFor(model => model.PostalCode)</label>
+                     @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control"})
+						<span class="k-invalid-msg" data-for="PostalCode"></span>
+			 
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+</div>
+</div>
+</div>
+ 
+													 </div>
+         			    </div>
+	                </div>
+
+				 				    <div class="row">
+                        <div class="col s12">
+                            <div class="well well-sm">
+								 							  							    
+<div class="row">
+<div class="col s5">
+<div class="form-group">
+  			<label for="CountryID"> @Html.DisplayNameFor(model => model.CountryID)</label>
+				@(Html.Kendo().DropDownListFor(model => model.CountryID).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_CountryID_Read", "Home")); }).ToClientTemplate())
+ 				<span class="k-invalid-msg" data-for="CountryID"></span>
+		  
+ 
+ </div>
+</div>
+<div class="col s10"></div>
+<div class="col s5">
+<div class="form-group">
+							    
+  		   				@MvcHtmlString.Create("<script>function contacts_Create_ContactPersonContact_CityID_filter() { return { id: $('\\#CountryID').val() }; }<\\/script>")
+
+				<label for="CityID"> @Html.DisplayNameFor(model => model.CityID)</label>
+				@(Html.Kendo().DropDownListFor(model => model.CityID).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("Contacts_Create_ContactPersonContact_CityID_Read", "Home").Data("contacts_Create_ContactPersonContact_CityID_filter")).ServerFiltering(true); }).Enable(false).AutoBind(false).CascadeFrom("CountryID").ToClientTemplate())
+				<span class="k-invalid-msg" data-for="CityID"></span>
+		  
+ 
+</div>
+</div>
+</div>
+							 </div>
+         			    </div>
+	                </div>
+
+				 
+ }
+  </div>
+            <div class="panel-footer">
+                <a href="javascript:contacts_Create_ContactPersonContact_Save_Main(); ">@Globale.SaveChanges</a> |
+                <a href="javascript: g_Router.navigate(String.format('/Contacts'));">@Globale.Cancel</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</script>
+
+
+
+
+
+<script>
+
+    var contacts_Create_ContactPersonContact_Save_Statues = 0;
+    function contacts_Create_ContactPersonContact_Save_Main() {
+        try {
+            if (contacts_Create_ContactPersonContact_Save_Statues == 0) {
+                contacts_Create_ContactPersonContact_Save_Statues = 1;
+                contacts_Create_ContactPersonContact_Save_Involk();
+            }
+        } catch (e) {
+            NS.error_Handler(contacts_Create_ContactPersonContact_Save_Statues);
+        }
+    }
+
+
+
+
+    function contacts_Create_ContactPersonContact_Save_Involk() {
+        var isValid = contacts_Create_ContactPersonContact_Save_valid();
+        if (isValid) {
+            contacts_Create_ContactPersonContact_Save_Send();
+        }
+    }
+
+    function contacts_Create_ContactPersonContact_Save_valid() {
+        var validator = $('#contacts_Create_ContactPersonContact_Form').kendoValidator().data("kendoValidator");
+        var isValid = validator.validate();
+        if (!isValid) {
+            var errors = validator.errors();
+            NS.shwoToastrWarning(errors[0]);
+            contacts_Create_ContactPersonContact_Save_Statues = 0;
+        }
+        return isValid;
+    }
+
+
+    function contacts_Create_ContactPersonContact_Save_Send() {
+        NS.shwoToastrProssing()
+        var myfrm = jQuery("#contacts_Create_ContactPersonContact_Form");
+        var postUrl = '@Url.Action("Contacts_Create_ContactPersonContact", "Home", new { Area = "ERP" })';
+        var postData = myfrm.serializeArray();
+        $.post(postUrl, postData)
+            .always(function (data, textStatus, errorThrown) {
+                if (textStatus == "success") {
+                    ///////////////////////////////////////////////////////
+                    if (data.Success == "1") {
+                        contacts_Create_ContactPersonContact_Save_Statues = 2;
+                        NS.shwoToastrSuccess();
+                        g_Router.navigate(String.format('/Contacts'));
+                        contacts_Create_ContactPersonContact_Save_Statues = 0;
+                    } else {
+                        NS.error_Handler(contacts_Create_ContactPersonContact_Save_Statues, data.ex);
+                        contacts_Create_ContactPersonContact_Save_Statues = 0;
+                    }
+                    //////////////////////////////////////////////////////
+                } else {
+                    NS.error_Handler(contacts_Create_ContactPersonContact_Save_Statues, errorThrown);
+                    contacts_Create_ContactPersonContact_Save_Statues = 0;
+                }
+            })
+        kendo.ui.progress($("#app_Body"), false);
+
+    }
+
+
+
+
+
+</script>
+

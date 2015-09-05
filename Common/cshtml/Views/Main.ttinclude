@@ -1,0 +1,426 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #> 
+<#@ assembly name="System.Web.Mvc" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name= "$(SolutionDir)CompanySetup.Core\bin\Debug\CompanySetup.Core.dll" #>
+<#@ assembly name= "$(SolutionDir)ERP.Core\bin\Debug\ERP.Core.dll" #>
+<#@ assembly name= "$(SolutionDir)Common\bin\Debug\Common.dll" #>
+<#@ assembly name= "$(SolutionDir)Law.Core\bin\Debug\Law.Core.dll" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.ComponentModel.DataAnnotations" #> 
+<#@ output extension=".cshtml" #>
+<#@ import namespace="EnvDTE" #>
+<#@ include file="MultipleOutputHelper.ttinclude"  #>
+
+<# 
+IServiceProvider serviceProvider = (IServiceProvider)Host;
+DTE dte = (DTE)serviceProvider.GetService(typeof(DTE));
+Project project = dte.Solution.FindProjectItem(Host.TemplateFile).ContainingProject;
+#>
+
+<#+
+
+
+	public class ClassAndType
+    {
+	        public object Class { get; set; }
+	        public string Type { get; set; }
+
+	}
+public class mvcLevel 
+    {
+        public object IndexClass { get; set; }
+        public object CreateClass { get; set; }
+        public object EditClass { get; set; }
+        public string Name { get; set; }
+        public string level { get; set; }
+        public string Nav { get; set; }
+		public List<ClassAndType> CreateClasses { get; set; }
+        public List<ClassAndType> EditClasses { get; set; }
+         public mvcLevel ()
+        {
+		this.CreateClasses = new List<ClassAndType>();
+		this.EditClasses = new List<ClassAndType>();
+        }
+  }
+   
+   public enum DisplayElemenType
+        {
+			None = 1,
+			Hidden ,
+            Text,
+            TextRTL,
+            Area,
+            AreaRTL,
+            Email,
+            Tel,
+            DropDown,
+            DropDownAutoBind,
+            Cascade,
+            Date,
+            Time,
+            DateTime,
+            Numeric,
+			DropDownWithFilter,
+			DropDownWithFilterAutoBind,
+			NameAr,
+			NameEn,
+			MultiSelect,
+			Integer,
+			Decimal,
+        }
+
+		public enum DisplayElementStatues
+        {
+            Hide ,
+            Show ,
+        }
+	public	class DisplayElement
+		{
+			public int Group { get; set; }
+			public DisplayElementStatues Statues { get; set; }
+			public DisplayElemenType Element { get; set; }
+			public string Info { get; set; }
+		}
+
+
+int count = 1;
+string a = "CompanySetup";   // Area 
+string c = "Home";   // Controller 
+string o = "Create";   // Opreation 
+
+
+Manager manager;
+  List<mvcLevel> _mvcLevels = new List<mvcLevel>() ;
+
+	string[] parts2 ;
+	string CS ;  
+	string Bs ;  
+	string bs ;  
+	string B ;  
+	string b ;  
+	string Fs ;  
+	string fs ;  
+	string F ;  
+	string f ;  
+
+	//Type IndexClass_modType ; 
+	//string IndexClass_entityAssembly ;
+	//Type IndexClass_entityTypeInfo  ;
+	CodeClass  IndexClass_CodeClass  ;
+	//List<CodeProperty> IndexClass_CodeClass_properties ;
+
+	//Type CreateClass_modType ; 
+	//string CreateClass_entityAssembly ;
+	//Type CreateClass_entityTypeInfo ;
+	CodeClass  CreateClass_CodeClass ;
+	//List<CodeProperty> CreateClass_CodeClass_properties ;
+
+	   	   
+	//Type EditClass_modType ; 
+	//string EditClass_entityAssembly  ;
+	//Type EditClass_entityTypeInfo ;
+	CodeClass  EditClass_CodeClass  ;
+	//List<CodeProperty> EditClass_CodeClass_properties   ;
+	
+	
+	public class ClassCodeAndType{
+	public CodeClass Class { get; set; }
+	public string Type { get; set; }
+	}
+
+	public List<ClassCodeAndType> CreateClasses_CodeClass ;
+	public List<ClassCodeAndType> EditClasses_CodeClass; 
+ 
+
+	string levelShortName ;
+	string controllers_Main__Path ;  
+	string views_Main__Path ;  
+	string views_Main__Path_Routes ;   
+	string views_Main__Path_Views ; 
+
+
+//UppercaseFirst
+static string u(string s)
+    {
+	// Check for empty string.
+	if (string.IsNullOrEmpty(s))
+	{
+	    return string.Empty;
+	}
+	// Return char and concat substring.
+	return char.ToUpper(s[0]) + s.Substring(1);
+    }
+
+//ToLower()
+ static string l(string s)
+    {
+	// Check for empty string.
+	if (string.IsNullOrEmpty(s))
+	{
+	    return string.Empty;
+	}
+	// ToLower()
+	return  s.ToLower();
+    }
+
+
+ 
+
+ private CodeClass FindClass(EnvDTE.DTE dte ,string className)
+{   
+
+  foreach(var project in dte.Solution.Projects.Cast<Project>()
+            .Where(p=> p.CodeModel!=null && p.Name!="Solution Items"))
+        {
+            //var appRoot= Path.GetDirectoryName(project.FullName) + '\\';
+
+            var rootNamespace = project.Properties.Item("RootNamespace").Value.ToString();
+				if	(className.StartsWith(rootNamespace))
+				{
+					return FindClass(project.CodeModel.CodeElements, className);
+				}
+        }
+		return null;
+}
+
+private CodeClass FindClass(CodeElements elements, string className)
+{
+    foreach (CodeElement element in elements)
+    {       
+        if(element is CodeNamespace || element is CodeClass)
+        {
+            CodeClass c = element as CodeClass;
+            if (c != null && c.Access == vsCMAccess.vsCMAccessPublic)
+            {
+                if(c.FullName == className)
+                    return c;
+
+                CodeClass subClass = FindClass(c.Members, className);
+                if(subClass!= null)
+                    return subClass;
+            }
+
+            CodeNamespace ns = element as CodeNamespace;
+            if(ns != null)
+            {
+                CodeClass cc = FindClass(ns.Members, className);
+                if(cc != null)
+                    return cc;
+            }
+        }
+    }
+    return null;
+}
+
+private bool HasAttr(EnvDTE.CodeProperty element,string attributeName)
+{
+	foreach(var attr in element.Attributes.OfType<EnvDTE.CodeAttribute>()) 
+			{ 	 
+				 if (attr.Name.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase))
+                 {
+					return true;
+                 }
+            }
+    
+    return false;
+}
+
+private string Hidden(EnvDTE.CodeProperty element)
+{
+	 if (get_Type(element).Statues  == DisplayElementStatues.Hide ) return "hidden";
+		 return string.Empty;
+}
+ 
+ 
+private DisplayElement get_Type(EnvDTE.CodeProperty element)
+{
+	DisplayElement result = new DisplayElement();
+ 			foreach(var attr in element.Attributes.OfType<EnvDTE.CodeAttribute>()) {
+			if (attr.Name.Equals("T4", StringComparison.InvariantCultureIgnoreCase)){
+				var attrValue = attr.Value.Split(',');
+				int result_Group = 0 ;
+					  int.TryParse( attrValue[0].Trim(),out result_Group);
+				result.Group = result_Group;
+					result.Statues =(DisplayElementStatues)Enum.Parse(typeof(DisplayElementStatues), attrValue[1].Trim().Split('.')[1]);  
+					result.Element =   (DisplayElemenType)Enum.Parse(typeof(DisplayElemenType), attrValue[2].Trim().Split('.')[1]);  
+					result.Info = attrValue[3].Replace("\"", "").Trim();
+					}	 
+				}
+
+    return result;
+}
+
+  
+private List<EnvDTE.CodeProperty> HasShow(EnvDTE.CodeClass element,int groupID)
+{
+	List<EnvDTE.CodeProperty> result = new List<EnvDTE.CodeProperty>();
+	foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+		DisplayElement displayElement = get_Type(prop);
+		if(displayElement.Group ==  groupID && 
+			displayElement.Statues == DisplayElementStatues.Show)
+				result.Add(prop);
+		}
+             
+    
+    return result;
+}
+
+
+private List<EnvDTE.CodeProperty> HasHidden(EnvDTE.CodeClass element)
+{
+	List<EnvDTE.CodeProperty> result = new List<EnvDTE.CodeProperty>();
+	foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+		DisplayElement displayElement = get_Type(prop);
+		if(displayElement.Element ==   DisplayElemenType.Hidden && 
+			displayElement.Statues == DisplayElementStatues.Hide)
+				result.Add(prop);
+		}
+             
+    
+    return result;
+}
+private int get_Type_Group_Count(EnvDTE.CodeClass element){
+int result = 0;
+	foreach(var attr in element.Attributes.OfType<EnvDTE.CodeAttribute>()) {
+	if (attr.Name.Equals("T4GroupCount", StringComparison.InvariantCultureIgnoreCase))
+		 int.TryParse(attr.Value.Trim(),out result);
+}
+	return result;
+}
+
+private string get_Type_Group_kendoDatePicker(EnvDTE.CodeClass element)
+{
+		List<String>result = new List<String>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+			DisplayElement displayElement = get_Type(prop);
+			if(displayElement.Statues == DisplayElementStatues.Show && displayElement.Element == DisplayElemenType.Date) result.Add("'"+ prop.Name + "'");
+        }
+                 
+			return	  string.Join(",", result);
+ }
+
+ 
+
+private string get_Type_Group_kendoNumericTextBox(EnvDTE.CodeClass element)
+{
+	List<String>result = new List<String>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+	DisplayElement displayElement = get_Type(prop);
+				if(displayElement.Statues == DisplayElementStatues.Show && (displayElement.Element == DisplayElemenType.Numeric || displayElement.Element == DisplayElemenType.Integer || displayElement.Element == DisplayElemenType.Decimal)) result.Add("'"+ prop.Name + "'");
+        }
+	return	  string.Join(",", result);
+}
+
+
+
+private string get_Type_Group_kendoDropDownList(EnvDTE.CodeClass element)
+{
+	 List<String>result = new List<String>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+				DisplayElement displayElement = get_Type(prop);
+				if(displayElement.Statues == DisplayElementStatues.Show && (displayElement.Element == DisplayElemenType.DropDown || displayElement.Element == DisplayElemenType.DropDownAutoBind || displayElement.Element == DisplayElemenType.DropDown   || displayElement.Element == DisplayElemenType.DropDownWithFilter)) result.Add("'"+ prop.Name + "'");
+         }
+	 return	  string.Join(",", result);
+}
+ 
+
+private void CopyPropertyAttributes(string _attributeName ,EnvDTE.CodeClass fromElement , EnvDTE.CodeClass toElement){
+	foreach(var toProp in toElement.Members.OfType<EnvDTE.CodeProperty>()){
+			var hasAttr = false;
+			foreach(var toAttr in toProp.Attributes.OfType<EnvDTE.CodeAttribute>()) {
+				if (toAttr.Name.Equals(_attributeName, StringComparison.InvariantCultureIgnoreCase))hasAttr = true; 
+			}
+			if(!hasAttr){
+			foreach(var fromProp in fromElement.Members.OfType<EnvDTE.CodeProperty>()){
+				if(fromProp.Name == toProp.Name){
+					foreach(var fromAttr in fromProp.Attributes.OfType<EnvDTE.CodeAttribute>()) {
+                    if (fromAttr.Name.Equals(_attributeName, StringComparison.InvariantCultureIgnoreCase)){
+							toProp.AddAttribute(_attributeName,fromAttr.Value);
+						}
+					}
+				}
+			}
+		}
+	}
+ }
+		
+
+
+private void CopyClassAttributes(string _attributeName ,EnvDTE.CodeClass fromElement , EnvDTE.CodeClass toElement){
+ 	var hasAttr = false;
+	foreach(var toAttr in toElement.Attributes.OfType<EnvDTE.CodeAttribute>()) {
+		if (toAttr.Name.Equals(_attributeName, StringComparison.InvariantCultureIgnoreCase))hasAttr = true; 
+		}
+	if(!hasAttr){
+ 			foreach(var fromAttr in fromElement.Attributes.OfType<EnvDTE.CodeAttribute>()) {
+			if (fromAttr.Name.Equals(_attributeName, StringComparison.InvariantCultureIgnoreCase)){
+					toElement.AddAttribute(_attributeName,fromAttr.Value);
+				}
+			}
+		}
+}
+
+
+
+private List<EnvDTE.CodeProperty> get_Type_DropDown(EnvDTE.CodeClass element)
+{
+	 List<EnvDTE.CodeProperty>result = new List<EnvDTE.CodeProperty>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+				DisplayElement displayElement = get_Type(prop);
+				if(displayElement.Statues == DisplayElementStatues.Show && (displayElement.Element == DisplayElemenType.DropDown || displayElement.Element == DisplayElemenType.DropDownAutoBind)) result.Add(prop);
+         }
+	 return	    result ;
+}
+ 
+private List<EnvDTE.CodeProperty> get_Type_DropDownWithFilter(EnvDTE.CodeClass element)
+{
+	 List<EnvDTE.CodeProperty>result = new List<EnvDTE.CodeProperty>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+				DisplayElement displayElement = get_Type(prop);
+				if(displayElement.Statues == DisplayElementStatues.Show && (displayElement.Element == DisplayElemenType.DropDownWithFilter || displayElement.Element == DisplayElemenType.DropDownWithFilterAutoBind)) result.Add(prop);
+         }
+	 return	    result ;
+}
+
+
+private List<EnvDTE.CodeProperty> get_Type_Cascade(EnvDTE.CodeClass element)
+{
+	 List<EnvDTE.CodeProperty>result = new List<EnvDTE.CodeProperty>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+				DisplayElement displayElement = get_Type(prop);
+				if(displayElement.Statues == DisplayElementStatues.Show && displayElement.Element == DisplayElemenType.Cascade) result.Add(prop);
+         }
+	 return	    result ;
+}
+
+
+private List<EnvDTE.CodeProperty> get_Type_Tel(EnvDTE.CodeClass element)
+{
+	 List<EnvDTE.CodeProperty>result = new List<EnvDTE.CodeProperty>();
+		foreach(var prop in element.Members.OfType<EnvDTE.CodeProperty>()){
+				DisplayElement displayElement = get_Type(prop);
+				if(displayElement.Statues == DisplayElementStatues.Show && displayElement.Element == DisplayElemenType.Tel) result.Add(prop);
+         }
+	 return	    result ;
+}
+
+
+private string get_Update_Class_Types(List<ClassCodeAndType> elements)
+{
+	 List<String>result = new List<String>();
+		foreach(var element in elements){
+ 				result.Add("'"+ element.Type + "'");
+         }
+	 return	  string.Join(",", result);
+}
+
+
+
+		 		
+   
+ #>

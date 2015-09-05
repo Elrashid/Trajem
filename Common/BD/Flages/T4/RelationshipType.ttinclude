@@ -1,0 +1,65 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".generated.cs" #>
+<#@ Assembly Name="C:\Program Files (x86)\Common Files\microsoft shared\MSEnv\PublicAssemblies\envdte.dll" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.Data" #> 
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text.RegularExpressions" #> 
+<# 
+  string tableName = Path.GetFileNameWithoutExtension(Host.TemplateFile);
+   
+  //  string path = Path.GetDirectoryName(Host.TemplateFile);
+  
+    string connectionString = "data source=.;initial catalog=Law_ERP;integrated security=SSPI";
+
+	// Get containing project
+	IServiceProvider serviceProvider = (IServiceProvider)Host;
+	DTE dte = (DTE)serviceProvider.GetService(typeof(DTE));
+	Project project = dte.Solution.FindProjectItem(Host.TemplateFile).ContainingProject;
+#>
+using System;
+using System.CodeDom.Compiler;
+
+namespace <#= project.Properties.Item("DefaultNamespace").Value #><#= Path.GetDirectoryName(Host.TemplateFile).Remove(0, Path.GetDirectoryName(project.FileName).Length).Replace("\\", ".") #>
+{
+    /// <summary>
+    /// <#= tableName #> auto generated enumeration
+    /// </summary>
+    [GeneratedCode("TextTemplatingFileGenerator", "10")]
+    public enum <#= tableName #>
+    {
+<#
+    SqlConnection conn = new SqlConnection(connectionString);
+    string command = " Select " +
+					" ID, " +
+					"  En as 'Relationship' , FromPartyRoleTypeID as 'FromRoleID', ToPartyRoleTypeID as 'ToRoleID', " +
+					" (select En From G_Party_Role_Type Where G_Party_Role_Type.ID = G_Party_Relationship_Type.FromPartyRoleTypeID) as 'FromRole' , " +
+					" (select En From G_Party_Role_Type Where G_Party_Role_Type.ID = G_Party_Relationship_Type.ToPartyRoleTypeID) as 'ToRole'   " +
+					" From G_Party_Relationship_Type  ";
+    SqlCommand comm = new SqlCommand(command, conn);
+	
+
+    conn.Open();
+
+    SqlDataReader reader = comm.ExecuteReader();
+    bool loop = reader.Read();
+
+    while(loop)
+    {
+#>      /// <summary>
+        /// <#= reader["Relationship"] #> configuration setting.
+        /// </summary>
+      <#= Pascalize(reader["Relationship"]) #>_From_<#= Pascalize(reader["FromRole"]) #>_To_<#= Pascalize(reader["ToRole"]) #>_<#= Pascalize(reader["FromRoleID"]) #>_<#= Pascalize(reader["ToRoleID"]) #> = <#= reader["ID"] #><# loop = reader.Read(); #><#= loop ? ",\r\n" : string.Empty #>
+<#
+    }
+#>  }
+}
+<#+
+    private string Pascalize(object value)
+    {
+		Regex rx = new Regex(@"(?:[^a-zA-Z0-9]*)(?<first>[a-zA-Z0-9])(?<reminder>[a-zA-Z0-9]*)(?:[^a-zA-Z0-9]*)");
+        return rx.Replace(value.ToString(), m => m.Groups["first"].ToString().ToUpper() + m.Groups["reminder"].ToString().ToLower());
+    }
+#>

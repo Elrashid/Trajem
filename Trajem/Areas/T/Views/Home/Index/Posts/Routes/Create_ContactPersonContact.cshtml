@@ -1,0 +1,42 @@
+<script>
+    var contacts_Create_ContactPersonContact_View;
+    g_Router.route("/Contacts/Create_ContactPersonContact", function () {
+      if (DEBUG) { console.log("Breadcrumb Start !"); }
+      g_Breadcrumb_Show([
+      [g_B_T_ERP,  String.format("javascript:g_Router.navigate('/')")],
+      [g_B_T_Contacts, String.format("javascript:g_Router.navigate('/Contacts')")],
+       [g_T_Globale_Create, ],
+      ]);
+      if (DEBUG) { console.log("Breadcrumb End !"); }
+      if (DEBUG) { console.log("View initialization Start !"); }
+      try { contacts_Create_ContactPersonContact_View.destroy(); } catch (e) { if (DEBUG) { console.log(e) } }
+        contacts_Create_ContactPersonContact_View = new kendo.View(
+                   'contacts_Create_ContactPersonContact_Template',
+               {
+                   model: {}, evalTemplate: true,
+                   show: function () { contacts_Create_ContactPersonContact_Route_Event_Show(); },
+                   hide: function () { contacts_Create_ContactPersonContact_Route_Event_Hide(); }
+               });
+        g_Var_Current_View = contacts_Create_ContactPersonContact_View;
+        if (DEBUG) { console.log("View initialization End !"); }
+        if (DEBUG) { console.log("View show In Start !"); }
+        g_Layout.showIn("#g_App_Body", contacts_Create_ContactPersonContact_View, "swap");
+        if (DEBUG) { console.log("View show In End !"); }
+    });
+
+
+    function contacts_Create_ContactPersonContact_Route_Event_Show() {
+        if (DEBUG) { console.log("View Show Event Start !"); }
+
+        if (DEBUG) { console.log("View Show Event End !"); }
+    }
+
+    function contacts_Create_ContactPersonContact_Route_Event_Hide() {
+        if (DEBUG) { console.log("View Hide Event Start !"); }
+        if (g_Var_Current_View != contacts_View) {
+            contacts_Create_ContactPersonContact_View.destroy();
+            if (DEBUG) { console.log("The view is destroyed !!"); }
+        }
+        if (DEBUG) { console.log("View Hide Event End !"); }
+    }
+</script>  

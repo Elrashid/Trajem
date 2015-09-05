@@ -1,0 +1,144 @@
+<script id="contacts_Update_ContactOrganizationContact_Template" type="text/x-kendo-template">
+    <div class="col s12">
+        <div class="section">
+            <div class="container">
+                @model  ERP.Core.BL.Models.ContactsModels.OrganizationEdit
+
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { role = "form", id = "contacts_Update_ContactOrganizationContact_Form", Name = "contacts_Update_ContactOrganizationContact_Form" }))
+                {
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                 @Html.LabelFor(model => model.ArName)
+                                @Html.TextBoxFor(model => model.ArName, new { @class = "form-control", style = "direction:RTL;" })
+                                <span class="k-invalid-msg" data-for="ArName"></span>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                @Html.LabelFor(model => model.EnName)
+                                @Html.TextBoxFor(model => model.EnName, new { @class = "form-control" })
+                                <span class="k-invalid-msg" data-for="EnName"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                @Html.LabelFor(model => model.Note)
+                                @Html.TextAreaFor(model => model.Note, new { @class = "materialize-textarea" })
+                                <span class="k-invalid-msg" data-for="Note"></span>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    @Html.HiddenFor(model => model.ID)
+                }
+            </div>
+        </div>
+
+
+        <div class="divider"></div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <a class="waves-effect waves-light btn" href="javascript:contacts_Update_ContactOrganizationContact_Save_Main(); ">@Globale.SaveChanges</a>
+                        <a class="waves-effect waves-light btn" href="javascript: g_Router.navigate(String.format('/Contacts'));">@Globale.Cancel</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</script>
+
+
+
+
+
+<script>
+
+    var contacts_Update_ContactOrganizationContact_Save_Statues = 0;
+    function contacts_Update_ContactOrganizationContact_Save_Main() {
+        try {
+            if (contacts_Update_ContactOrganizationContact_Save_Statues == 0) {
+                contacts_Update_ContactOrganizationContact_Save_Statues = 1;
+                contacts_Update_ContactOrganizationContact_Save_Involk()
+            }
+        } catch (e) {
+            NS.error_Handler(contacts_Update_ContactOrganizationContact_Save_Statues);
+        }
+    }
+
+
+
+
+    function contacts_Update_ContactOrganizationContact_Save_Involk() {
+        var isValid = contacts_Update_ContactOrganizationContact_Save_valid();
+        if (isValid) {
+            contacts_Update_ContactOrganizationContact_Save_Send();
+        }
+    }
+
+    function contacts_Update_ContactOrganizationContact_Save_valid() {
+        var validator = $('#contacts_Update_ContactOrganizationContact_Form').kendoValidator().data("kendoValidator");
+        var isValid = validator.validate();
+        if (!isValid) {
+            var errors = validator.errors();
+            NS.shwoToastrWarning(errors[0]);
+            contacts_Update_ContactOrganizationContact_Save_Statues = 0;
+        }
+        return isValid;
+    }
+
+
+    function contacts_Update_ContactOrganizationContact_Save_Send() {
+        NS.shwoToastrProssing();
+        var myfrm = jQuery("#contacts_Update_ContactOrganizationContact_Form");
+        var postUrl = '@Url.Action("Contacts_Update", "Home", new { Area = "ERP" })';
+        var postData = myfrm.serializeArray();
+        $.post(postUrl, postData)
+            .always(function (data, textStatus, errorThrown) {
+                if (textStatus == "success") {
+                    ///////////////////////////////////////////////////////
+                    if (data.Success == "1") {
+                        contacts_Update_ContactOrganizationContact_Save_Statues = 2;
+                        NS.shwoToastrSuccess();
+                        g_Router.navigate(String.format('/Contacts'))
+                        contacts_Update_ContactOrganizationContact_Save_Statues = 0;
+                    } else {
+                        NS.error_Handler(contacts_Update_ContactOrganizationContact_Save_Statues, data.ex);
+                        contacts_Update_ContactOrganizationContact_Save_Statues = 0;
+                    }
+                    //////////////////////////////////////////////////////
+                } else {
+                    NS.error_Handler(contacts_Update_ContactOrganizationContact_Save_Statues, errorThrown);
+                    contacts_Update_ContactOrganizationContact_Save_Statues = 0;
+                }
+            })
+        kendo.ui.progress($("#g_App_Body"), false);
+
+    }
+
+
+
+
+
+</script>
+

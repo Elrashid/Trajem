@@ -1,0 +1,130 @@
+ @model Trajem.Core.BL.Models.PostModels.PostInfo
+<script id="posts_Template" type="text/kendo-tmpl">
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li>
+                <a class="btn-floating red darken-1" href="javascript:g_Router.navigate(String.format('/posts/Create_ContactOrganizationContact'))">
+                    <i class="material-icons">publish</i>
+                    <span class="btn-floating-text red darken-1 z-depth-3"> Create an Organization Contact</span>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating red darken-1" href="javascript:g_Router.navigate(String.format('/posts/Create_ContactPersonContact'))">
+                    <i class="material-icons">publish</i>
+                    <span class="btn-floating-text red darken-1 z-depth-3"> Create a Person Contact</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+        <div id="posts_Table_Viewer">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>    
+        </div>
+</script>
+
+
+<script>
+    function posts_AdditionalData(data) {
+
+
+    }
+    function posts_ShowDetails(e) {
+
+    }
+
+</script>
+
+<script id="posts_Table_Template" type="text/kendo-tmpl">
+    <ul class="collapsible popout" data-collapsible="accordion">
+        # for (var i = 0; i < data.length; i++) { #
+
+        <li>
+            <div class="collapsible-header">
+
+                <a class='dropdown-button' href='javascript:void(0)' data-activates='dropdown_#:data[i].ID#'><i class="material-icons">more_vert </i> </a>
+                <ul id='dropdown_#:data[i].ID#' class='dropdown-content'>
+                    @*# if(!data[i].IsDeleted) {#
+                        <li>
+                            <a href="javascript: g_Router.navigate(String.format('/posts/{0}/postsContactMechanisms?ContactName={1}', #:data[i].ID# , '#:data[i].ID#' ));">#=g_B_T_posts_postsContactMechanisms#</a>
+                        </li>
+                        # } #*@
+                </ul>
+
+
+
+                <span class="truncate">#:data[i].FileName# - #:posts_Statues(data[i].Statues)# </span>
+
+            </div>
+            <div class="collapsible-body">
+
+                <div class="row ">
+                    <div class="card-panel teal lighten-2 col s12">
+                        <p class="flow-text ">#:data[i].FileName#</p>
+                        <p class="flow-text ">#:posts_Statues(data[i].Statues)#</p>
+                    </div>
+                </div>
+
+            </div>
+        </li>
+
+        # } #
+    </ul>
+
+
+</script>  
+
+
+
+<script>
+
+    function posts_Statues(id) {
+        var txt = "-"
+        switch (id) {
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.WaitingTranslationRequest) :
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.WaitingTranslationRequest.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.HasTranslationRequest):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.HasTranslationRequest.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.WaitingForTheTranslatorToAcceptTheRequest):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.WaitingForTheTranslatorToAcceptTheRequest.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.RejectedByTranslator ):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.RejectedByTranslator.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.AcceptedByTranslator ):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.AcceptedByTranslator.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.TranslationOnprogress):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.TranslationOnprogress.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.TranslationDoen ):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.TranslationDoen.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.Delivered ):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.Delivered.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.IsCanceledByTheApplicant ):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.IsCanceledByTheApplicant.ToString()");
+                break;
+            case @((int)Trajem.Core.BL.Models.PostModels.PostStatues.IsCanceledByTheTranslator ):
+                txt = camelcase("@Trajem.Core.BL.Models.PostModels.PostStatues.IsCanceledByTheTranslator.ToString()");
+                break;
+        }
+        return  txt;
+    }
+
+</script>
+
+
+    <script>
+        function camelcase(txt) {
+            return  txt .replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
+        
+        }
+       
+    </script>

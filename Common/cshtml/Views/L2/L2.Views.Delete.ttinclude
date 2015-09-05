@@ -1,0 +1,75 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Delete";  #>
+<script id="<#=bs#>_<#=Fs#>_Delete_Template" type="text/x-kendo-template">
+    <div class="col-sm-12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                @Globale.RequestConfirmation
+
+            </div>
+
+
+            <div class="panel-footer">
+                <a href="javascript:<#=bs#>_<#=Fs#>_Delete_Main(#=id#); "> @Globale.Delete</a> |
+                <a href="javascript: g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>?<#=B#>Name={1}', <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name ));">@Globale.Cancel</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</script>
+
+
+
+
+
+<script>
+
+    var <#=bs#>_<#=Fs#>_Delete_Statues = 0;
+    function <#=bs#>_<#=Fs#>_Delete_Main(id) {
+        try {
+            if (<#=bs#>_<#=Fs#>_Delete_Statues == 0) {
+                <#=bs#>_<#=Fs#>_Delete_Statues = 1;
+                <#=bs#>_<#=Fs#>_Delete_Involk(id);
+            }
+        } catch (e) {
+            NS.error_Handler(<#=bs#>_<#=Fs#>_Delete_Statues);
+        }
+    }
+
+
+    function <#=bs#>_<#=Fs#>_Delete_Involk(id) {
+        NS.shwoToastrProssing();
+        var myfrm = jQuery("#<#=bs#>_<#=Fs#>_Delete_Form");
+        var postUrl = '@Url.Action("<#=bs#>_<#=Fs#>_Delete", "<#=c#>", new { Area = "<#=a#>" })';
+        var postData = { id: id, }
+        $.post(postUrl, postData)
+            .always(function (data, textStatus, errorThrown) {
+                if (textStatus == "success") {
+                    ///////////////////////////////////////////////////////
+                    if (data.Success == "1") {
+                        <#=bs#>_<#=Fs#>_Delete_Statues = 2;
+                        NS.shwoToastrSuccess();
+						g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>?<#=B#>Name={1}', <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name )) ;
+						<#=bs#>_<#=Fs#>_Delete_Statues = 0;
+                    } else {
+                        NS.error_Handler(<#=bs#>_<#=Fs#>_Delete_Statues, data.ex);
+                    }
+                    //////////////////////////////////////////////////////
+                } else {
+                    NS.error_Handler(<#=bs#>_<#=Fs#>_Delete_Statues, errorThrown);
+                }
+            })
+        <#=bs#>_<#=Fs#>_Delete_Statues = 0;
+        kendo.ui.progress($("#app_Body"), false);
+
+    }
+
+
+
+
+
+</script>

@@ -1,0 +1,7 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+@Html.Partial("Index/<#=Bs#>/Routes/Index")
+@Html.Partial("Index/<#=Bs#>/Routes/Create")
+@Html.Partial("Index/<#=Bs#>/Routes/Update")
+@Html.Partial("Index/<#=Bs#>/Routes/Delete")
+@Html.Partial("Index/<#=Bs#>/Routes/Undelete")
+ 

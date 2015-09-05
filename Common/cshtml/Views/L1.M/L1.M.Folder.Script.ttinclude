@@ -1,0 +1,20 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<script>
+    var <#=bs#>_<#=B#>_ID = 0;
+    var <#=bs#>_<#=B#>_Name = "-";
+    var <#=bs#>_<#=B#>_Data = [];
+    <#=bs#>_<#=B#>_Data.LastID = "";
+    <#=bs#>_<#=B#>_Data.Name = "";
+
+    function <#=bs#>_<#=B#>_GetName() {
+        if (typeof <#=bs#>_<#=B#>_Name == 'undefined' ) {
+            <#=bs#>_<#=B#>_Name = "";
+        }
+        return <#=bs#>_<#=B#>_Name;
+    }
+
+
+
+
+
+</script>

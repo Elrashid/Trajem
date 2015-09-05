@@ -1,0 +1,77 @@
+  <script>
+    var posts_View;
+    g_Router.route("/Posts", function () {
+        if (DEBUG) { console.log("Breadcrumb Start !"); }
+        g_Breadcrumb_Show([
+                [g_B_T_Me, "javascript:g_Router.navigate('/')"],
+                [g_B_T_posts, ""],
+        ]);
+        if (DEBUG) { console.log("Breadcrumb End !"); }
+        if (DEBUG) { console.log("View initialization Start !"); }
+        try { posts_View.destroy(); } catch (e) { if (DEBUG) { console.log(e) } }
+        posts_View = new kendo.View(
+                'posts_Template',
+            {
+                model: {}, evalTemplate: true,
+                show: function () { posts_Route_Events_Show(); },
+                hide: function () { posts_Route_Events_Hide(); }
+            });
+        g_Var_Current_View = posts_View;
+        if (DEBUG) { console.log("View initialization End !"); }
+        if (DEBUG) { console.log("View show In Start !"); }
+        g_Layout.showIn("#g_App_Body", posts_View, "swap");
+          if (DEBUG) { console.log("View show In End !"); }
+          posts_Route_Data_Request();
+
+          });
+
+
+          function posts_Route_Events_Show() {
+        if (DEBUG) { console.log("View Show Event Start !"); }
+        jQuery(function () {
+        
+        
+           });
+        if (DEBUG) { console.log("View Show Event End !"); }
+
+    }
+            function posts_Route_Events_Hide() {
+              if (DEBUG) { console.log("View Hide Event Start !"); }
+              if (g_Var_Current_View != posts_View) {
+              posts_View.destroy();
+              if (DEBUG) { console.log("The view is destroyed !!"); }
+              }
+              if (DEBUG) { console.log("View Hide Event End !"); }
+            }
+
+
+            function posts_Route_Data_Request() {
+              if (DEBUG) { console.log("Data Request Start !"); }
+              kendo.ui.progress($("#g_App_Body"), true);
+              jQuery(function () {
+              var postUrl = '@Url.Action("posts_Read", "Home", new { Area = "T" })';
+            var postData = {   }
+            if (DEBUG) { console.log("Data Request ,Sending  Start !"); }
+            $.post(postUrl, postData)
+            .done(function (data) {
+                if (DEBUG) { console.log("Data Request ,Sending  End !"); }
+                if (DEBUG) { console.log(data); }
+            if (DEBUG) { console.log("Data Request ,Assigning  Start !"); }
+            if (g_Var_Current_View == posts_View) {
+              if (DEBUG) { console.log("g_Var_Current_View == posts_View!"); }
+              var posts_Table_Template = kendo.template($("#posts_Table_Template").html());
+              $("#posts_Table_Viewer").html(posts_Table_Template(data.mod));
+              initDrop();
+              kendo.ui.progress($("#g_App_Body"), false);
+              }
+
+              if (DEBUG) { console.log("Data Request ,Assigning  End !"); }
+              kendo.ui.progress($("#g_App_Body"), false);
+              })
+              });
+              if (DEBUG) { console.log("Data Request End !"); }
+            }
+         posts_EngagementItems_Update_Class_Types = ['ContactOrganizationContact','ContactPersonContact'];
+
+</script>
+

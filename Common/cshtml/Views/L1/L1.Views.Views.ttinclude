@@ -1,0 +1,6 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+@Html.Partial("Index/<#=Bs#>/Views/Index")
+@Html.Partial("Index/<#=Bs#>/Views/Create")
+@Html.Partial("Index/<#=Bs#>/Views/Update")
+@Html.Partial("Index/<#=Bs#>/Views/Delete")
+@Html.Partial("Index/<#=Bs#>/Views/Undelete")

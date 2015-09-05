@@ -1,0 +1,42 @@
+﻿begin Main.Gen.ttinclude
+ <# foreach (var mvcLevels in _mvcLevels){#>
+   
+<# 
+   switch (mvcLevels.level )
+        {
+		 case "level1":
+		#>
+		 <#@ include file="L1/L1.ttinclude" #>
+		<# 
+		break;
+		    case "level1.M":
+		#>
+		 <#@ include file="L1.M/L1.M.ttinclude" #>
+		<# 
+		break;
+		    case "level1.MM":
+		#>
+		 <#@ include file="L1.MM/L1.MM.ttinclude" #>
+		<# 
+		break;
+		case "level2":
+		#>
+		 <#@ include file="L2/L2.ttinclude" #>
+		<# 
+		break;
+		case "level2.M":
+	    #>
+		 <#@ include file="L2.M/L2.M.ttinclude" #>
+		<# 
+		break;
+			case "level2.MM":
+	    #>
+		 <#@ include file="L2.MM/L2.MM.ttinclude" #>
+		<# 
+		break;
+		default:
+        break;
+		}
+#>
+    
+<#}#>

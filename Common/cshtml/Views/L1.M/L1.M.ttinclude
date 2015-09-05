@@ -1,0 +1,123 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+ 
+<#   manager = Manager.Create(Host, GenerationEnvironment);  #>
+
+<#  
+			parts2 = mvcLevels.Name.Split('_');
+ 			 CS = u(parts2[0]);  
+			 Bs = u(parts2[1]);  
+			 bs = l(parts2[1]);  
+			 B = u(parts2[2]);  
+			 b = l(parts2[2]);  
+ 		 
+#> 
+
+<#
+	   
+ //IndexClass_modType =   mvcLevels.IndexClass.GetType(); 
+ //IndexClass_entityAssembly = IndexClass_modType.AssemblyQualifiedName;
+// IndexClass_entityTypeInfo = Type.GetType(IndexClass_entityAssembly);
+  IndexClass_CodeClass =  FindClass(dte,mvcLevels.IndexClass.ToString());
+ //IndexClass_CodeClass_properties = IndexClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+ //CreateClass_modType =   mvcLevels.CreateClass.GetType(); 
+ //CreateClass_entityAssembly = CreateClass_modType.AssemblyQualifiedName;
+// CreateClass_entityTypeInfo = Type.GetType(CreateClass_entityAssembly);
+ // CreateClass_CodeClass =  FindClass(dte,mvcLevels.CreateClass.ToString());
+// CreateClass_CodeClass_properties = CreateClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+	   	   
+ //EditClass_modType =   mvcLevels.EditClass.GetType(); 
+ //EditClass_entityAssembly = EditClass_modType.AssemblyQualifiedName;
+// EditClass_entityTypeInfo = Type.GetType(EditClass_entityAssembly);
+ // EditClass_CodeClass =  FindClass(dte,mvcLevels.EditClass.ToString());
+// EditClass_CodeClass_properties = EditClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+
+ CreateClasses_CodeClass  = new List<ClassCodeAndType>();
+ EditClasses_CodeClass= new List<ClassCodeAndType>();
+
+ foreach (var item in mvcLevels.CreateClasses) { CreateClasses_CodeClass.Add( new ClassCodeAndType(){Class = FindClass(dte,item.Class.ToString()) , Type = item.Type });}
+ foreach (var item in mvcLevels.EditClasses) { EditClasses_CodeClass.Add(  new ClassCodeAndType(){Class = FindClass(dte,item.Class.ToString()) , Type = item.Type });}
+
+  levelShortName = Bs ;
+ controllers_Main__Path =  Path.Combine("Controllers" , c );  
+  views_Main__Path =  Path.Combine("Views" , c ,"Index",levelShortName);  
+ views_Main__Path_Routes =  Path.Combine(views_Main__Path,"Routes");   
+  views_Main__Path_Views = Path.Combine(views_Main__Path,"Views"); 
+//TODO:CopyPropertyAttributes
+// Don Use In multi class Becase U have Match By Class.Type
+//CopyPropertyAttributes("T4",CreateClass_CodeClass , EditClass_CodeClass) ;
+//CopyClassAttributes("T4GroupCount" ,CreateClass_CodeClass , EditClass_CodeClass) ;
+ #> 
+
+<# foreach(var item in CreateClasses_CodeClass ){#>
+<# manager.StartNewFile("Create"+ "_" + item.Type + ".cshtml",views_Main__Path_Routes); #>
+<#@include file="L1.M.Routes.Create.ttinclude"#>
+<# manager.EndBlock(); #>
+<#}#>
+<# foreach(var item in EditClasses_CodeClass ){#>
+<# manager.StartNewFile("Update"+ "_" + item.Type + ".cshtml",views_Main__Path_Routes); #>
+<#@include file="L1.M.Routes.Update.ttinclude"#>
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.StartNewFile("Delete.cshtml",views_Main__Path_Routes); #>
+<#@include file="L1.M.Routes.Delete.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Index.cshtml",views_Main__Path_Routes); #>
+<#@include file="L1.M.Routes.Index.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Routes.cshtml",views_Main__Path_Routes); #>
+<#@include file="L1.M.Routes.Routes.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Undelete.cshtml",views_Main__Path_Routes); #>
+<#@include file="L1.M.Routes.Undelete.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Partials.cshtml",views_Main__Path); #>
+<#@include file="L1.M.Folder.Partials.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Script.cshtml",views_Main__Path); #>
+<#@include file="L1.M.Folder.Script.ttinclude"#>
+<# manager.EndBlock(); #>
+ 
+
+<# foreach(var item in CreateClasses_CodeClass ){#>
+<# manager.StartNewFile("Create"+ "_" +  item.Type +".cshtml",views_Main__Path_Views); #>
+<#@include file="L1.M.Views.Create.ttinclude"#>
+<# manager.EndBlock(); #>
+<#}#>
+
+<# foreach(var item in EditClasses_CodeClass ){#>
+<# manager.StartNewFile("Update"+ "_" + item.Type + ".cshtml",views_Main__Path_Views); #>
+<#@include file="L1.M.Views.Update.ttinclude"#>
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.StartNewFile("Delete.cshtml",views_Main__Path_Views); #>
+<#@include file="L1.M.Views.Delete.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Index.cshtml",views_Main__Path_Views); #>
+<#@include file="L1.M.Views.Index.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Views.cshtml",views_Main__Path_Views); #>
+<#@include file="L1.M.Views.Views.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.StartNewFile("Undelete.cshtml",views_Main__Path_Views); #>
+<#@include file="L1.M.Views.Undelete.ttinclude"#>
+<# manager.EndBlock(); #>
+
+
+
+<# manager.StartNewFile(levelShortName + ".cs",controllers_Main__Path); #>
+<#@include file="L1.M.Controller.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.Process(true); #>

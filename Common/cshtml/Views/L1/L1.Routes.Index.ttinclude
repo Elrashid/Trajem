@@ -1,0 +1,75 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Index";  #>
+  <script>
+    var <#=bs#>_View;
+    g_Router.route("/<#=Bs#>", function () {
+        if (DEBUG) { console.log("Breadcrumb Start !"); }
+        g_Breadcrumb_Show([
+                [g_B_T_<#=CS#>, "javascript:g_Router.navigate('/')"],
+                [g_B_T_<#=Bs#>, ""],
+        ]);
+        if (DEBUG) { console.log("Breadcrumb End !"); }
+        if (DEBUG) { console.log("View initialization Start !"); }
+        try { <#=bs#>_View.destroy(); } catch (e) { if (DEBUG) { console.log(e) } }
+        <#=bs#>_View = new kendo.View(
+                '<#=bs#>_Template',
+            {
+                model: {}, evalTemplate: true,
+                show: function () { <#=bs#>_Route_Events_Show(); },
+                hide: function () { <#=bs#>_Route_Events_Hide(); }
+            });
+        g_Var_Current_View = <#=bs#>_View;
+        if (DEBUG) { console.log("View initialization End !"); }
+        if (DEBUG) { console.log("View show In Start !"); }
+        g_Layout.showIn("#g_App_Body", <#=bs#>_View, "swap");
+          if (DEBUG) { console.log("View show In End !"); }
+          <#=bs#>_Route_Data_Request();
+
+          });
+
+
+          function <#=bs#>_Route_Events_Show() {
+        if (DEBUG) { console.log("View Show Event Start !"); }
+        jQuery(function () {
+        
+        
+           });
+        if (DEBUG) { console.log("View Show Event End !"); }
+
+    }
+            function <#=bs#>_Route_Events_Hide() {
+              if (DEBUG) { console.log("View Hide Event Start !"); }
+              if (g_Var_Current_View != <#=bs#>_View) {
+              <#=bs#>_View.destroy();
+              if (DEBUG) { console.log("The view is destroyed !!"); }
+              }
+              if (DEBUG) { console.log("View Hide Event End !"); }
+            }
+
+
+            function <#=bs#>_Route_Data_Request() {
+              if (DEBUG) { console.log("Data Request Start !"); }
+              kendo.ui.progress($("#g_App_Body"), true);
+              jQuery(function () {
+              var postUrl = '@Url.Action("<#=Bs#>_Read", "<#=c#>", new { Area = "<#=a#>" })';
+            var postData = {   }
+            if (DEBUG) { console.log("Data Request ,Sending  Start !"); }
+            $.post(postUrl, postData)
+            .done(function (data) {
+            if (DEBUG) { console.log("Data Request ,Sending  End !"); }
+            if (DEBUG) { console.log("Data Request ,Assigning  Start !"); }
+            if (g_Var_Current_View == <#=bs#>_View) {
+              if (DEBUG) { console.log("g_Var_Current_View == <#=bs#>_View!"); }
+              var <#=bs#>_Table_Template = kendo.template($("#<#=bs#>_Table_Template").html());
+              $("#<#=bs#>_Table_Viewer").html(<#=bs#>_Table_Template(data.mod));
+              kendo.ui.progress($("#g_App_Body"), false);
+              }
+
+              if (DEBUG) { console.log("Data Request ,Assigning  End !"); }
+              kendo.ui.progress($("#g_App_Body"), false);
+              })
+              });
+              if (DEBUG) { console.log("Data Request End !"); }
+            }
+              
+</script>

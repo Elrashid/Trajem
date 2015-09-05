@@ -1,0 +1,125 @@
+﻿
+<div id="g_App" class="col-sm-12">
+
+</div>
+
+<script>
+    $.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+</script>
+
+<script id="g_Breadcrumb_Template" type="text/x-kendo-template">
+    <div class="col s12 hide-on-small-only">
+            <ul class="breadcrumb ">
+                # for (var i = 0; i < data.nav.length -1; i++) {#
+                <li> <a href="#= data.nav[i][1] #">#= data.nav[i][0] #</a></li>
+                # } #
+                # if( data.nav.length > 0 )  {#
+                <li ><a href="\\#"> #= data.nav[(data.nav.length -1)][0] # </a></li>
+                # } #
+            </ul>
+    </div>
+
+            # for (var i = 0; i < data.nav.length ; i++) {#
+    <div class="col s12 card green accent-1 hide-on-med-and-up">
+        <a href="#= data.nav[i][1] #">
+            <strong>
+                # for (var m = -1; m < i ; m++) {# ># } #
+                #= data.nav[i][0] #
+            </strong>
+        </a>
+    </div>
+        # } #
+
+</script>
+<script>
+
+    function g_Breadcrumb_Template_data_Int(toPush) {
+        var _data = {};
+        _data.nav = [];
+        for (var i = 0, len = toPush.length; i < len; ++i) {
+            _data.nav.push(toPush[i]);
+        }
+        return _data;
+    };
+    var g_Breadcrumb_View = "";
+    function g_Breadcrumb_Show(toPush) {
+        var _data = g_Breadcrumb_Template_data_Int(toPush);
+        var _breadcrumb_Template = kendo.template($("#g_Breadcrumb_Template").html());
+        if (g_Breadcrumb_View.length > 0) { g_Breadcrumb_View.destroy(); };
+        g_Breadcrumb_View = new kendo.View(_breadcrumb_Template(_data));
+        g_Layout.showIn("#g_App_header", g_Breadcrumb_View, "swap");
+    }
+
+</script>
+
+
+
+<script id="g_Layout_Template" type="text/x-kendo-template">
+
+    <div class='row' id='g_App_header'>
+    </div>
+    <div class='row' id='g_App_Body'>
+    </div>
+
+</script>
+
+
+<script>
+    var g_Layout_Template = kendo.template($("#g_Layout_Template").html());
+    var g_Layout = new kendo.Layout(g_Layout_Template({}));
+</script>
+
+
+
+ 
+
+<script>
+    var g_Router = new kendo.Router();
+
+
+    </script>
+     @Html.Partial("Index/Partials")
+
+ 
+<script>
+    g_Layout.render($("#g_App"));
+    $(function () {
+        g_Router.start();
+    });
+</script>
+
+
+
+
+
+<style>
+    /* the initial position of the next div */
+    .k-fx-swap.k-fx-start .k-fx-next {
+        -webkit-transform: translatex(100%);
+        -moz-transform: translatex(100%);
+        transform: translatex(100%);
+    }
+
+    /* the final position of the current div */
+    .k-fx-swap.k-fx-end .k-fx-current {
+        opacity: 0;
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+</style>
+ 

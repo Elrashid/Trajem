@@ -1,0 +1,7 @@
+﻿<#
+string tableName = "CS_Engageement_Role_Type";
+string className = "EngageementRoleType";
+#>
+
+<#@ include file="T4/EnumFromDB.ttinclude" #>     
+ 

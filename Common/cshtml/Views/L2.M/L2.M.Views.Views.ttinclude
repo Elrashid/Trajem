@@ -1,0 +1,18 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+
+@Html.Partial("Index/<#=Bs#>_<#=Fs#>/Views/Index")
+
+<# foreach(var item in CreateClasses_CodeClass ){#>
+@Html.Partial("Index/<#=Bs#>_<#=Fs#>/Views/Create_<#=item.Type#>")
+<#}#>
+
+<# foreach(var item in EditClasses_CodeClass ){#>
+@Html.Partial("Index/<#=Bs#>_<#=Fs#>/Views/Update_<#=item.Type#>")
+<#}#>
+
+@Html.Partial("Index/<#=Bs#>_<#=Fs#>/Views/Delete")
+
+@Html.Partial("Index/<#=Bs#>_<#=Fs#>/Views/Undelete")
+
+
+

@@ -1,0 +1,94 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+ 
+<#   manager = Manager.Create(Host, GenerationEnvironment);  #>
+
+<#  
+			 parts2 = mvcLevels.Name.Split('_');
+ 			 CS = u(parts2[0]);  
+			 Bs = u(parts2[1]);  
+			 bs = l(parts2[1]);  
+			 B = u(parts2[2]);  
+			 b = l(parts2[2]);  
+			 Fs = u(parts2[3]);  
+			 fs = l(parts2[3]);  
+			 F = u(parts2[4]);  
+			 f = l(parts2[4]);  
+ 		 
+#> 
+
+<#
+	   
+ //IndexClass_modType =   mvcLevels.IndexClass.GetType(); 
+ //IndexClass_entityAssembly = IndexClass_modType.AssemblyQualifiedName;
+ //IndexClass_entityTypeInfo = Type.GetType(IndexClass_entityAssembly);
+  IndexClass_CodeClass =  FindClass(dte,mvcLevels.IndexClass.ToString());
+ //IndexClass_CodeClass_properties = IndexClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+ //CreateClass_modType =   mvcLevels.CreateClass.GetType(); 
+ //CreateClass_entityAssembly = CreateClass_modType.AssemblyQualifiedName;
+// CreateClass_entityTypeInfo = Type.GetType(CreateClass_entityAssembly);
+  CreateClass_CodeClass =  FindClass(dte,mvcLevels.CreateClass.ToString());
+ //CreateClass_CodeClass_properties = CreateClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+	   	   
+ //EditClass_modType =   mvcLevels.EditClass.GetType(); 
+ //EditClass_entityAssembly = EditClass_modType.AssemblyQualifiedName;
+ //EditClass_entityTypeInfo = Type.GetType(EditClass_entityAssembly);
+  EditClass_CodeClass =  FindClass(dte,mvcLevels.EditClass.ToString());
+ //EditClass_CodeClass_properties = EditClass_CodeClass.Members.OfType<EnvDTE.CodeProperty>().ToList();
+
+ levelShortName = Bs + "_" + Fs;
+ controllers_Main__Path =  Path.Combine("Controllers" , c );  
+ views_Main__Path =  Path.Combine("Views" , c ,"Index",levelShortName);  
+ views_Main__Path_Routes =  Path.Combine(views_Main__Path,"Routes");   
+ views_Main__Path_Views = Path.Combine(views_Main__Path,"Views"); 
+ #> 
+
+ 	 
+<# manager.StartNewFile("Create.cshtml",views_Main__Path_Routes); #>
+<#@include file="L2.Routes.Create.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Delete.cshtml",views_Main__Path_Routes); #>
+<#@include file="L2.Routes.Delete.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Index.cshtml",views_Main__Path_Routes); #>
+<#@include file="L2.Routes.Index.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Routes.cshtml",views_Main__Path_Routes); #>
+<#@include file="L2.Routes.Routes.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Undelete.cshtml",views_Main__Path_Routes); #>
+<#@include file="L2.Routes.Undelete.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Update.cshtml",views_Main__Path_Routes); #>
+<#@include file="L2.Routes.Update.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Partials.cshtml",views_Main__Path); #>
+<#@include file="L2.Folder.Partials.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Script.cshtml",views_Main__Path); #>
+<#@include file="L2.Folder.Script.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Create.cshtml",views_Main__Path_Views); #>
+<#@include file="L2.Views.Create.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Delete.cshtml",views_Main__Path_Views); #>
+<#@include file="L2.Views.Delete.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Index.cshtml",views_Main__Path_Views); #>
+<#@include file="L2.Views.Index.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Views.cshtml",views_Main__Path_Views); #>
+<#@include file="L2.Views.Views.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Undelete.cshtml",views_Main__Path_Views); #>
+<#@include file="L2.Views.Undelete.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile("Update.cshtml",views_Main__Path_Views); #>
+<#@include file="L2.Views.Update.ttinclude"#>
+<# manager.EndBlock(); #>
+<# manager.StartNewFile(levelShortName + ".cs",controllers_Main__Path); #>
+<#@include file="L2.Controller.ttinclude"#>
+<# manager.EndBlock(); #>
+
+<# manager.Process(true); #>

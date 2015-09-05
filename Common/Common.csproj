@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A2B18D3-251E-49C3-BDE5-11D395A384C5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BD\Flages\ContactMechanismPurposeType.generated.cs">
+      <DependentUpon>ContactMechanismPurposeType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\EngageementItemRoleType.generated.cs">
+      <DependentUpon>EngageementItemRoleType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\EngageementRoleType.generated.cs">
+      <DependentUpon>EngageementRoleType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\ProductType.generated.cs">
+      <DependentUpon>ProductType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\EngageementItemType.generated.cs">
+      <DependentUpon>EngageementItemType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\PartyType.cs" />
+    <Compile Include="BD\Flages\FacilityRoleType.generated.cs">
+      <DependentUpon>FacilityRoleType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\FacilityType.generated.cs">
+      <DependentUpon>FacilityType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\PartyRoleType.generated.cs">
+      <DependentUpon>PartyRoleType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\ContactMechanismType.generated.cs">
+      <DependentUpon>ContactMechanismType.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="BD\Flages\RateType.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RateType.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BD\Flages\RelationshipType.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelationshipType.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Display\Class.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BD\Flages\ContactMechanismPurposeType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ContactMechanismPurposeType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\EngageementItemRoleType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EngageementItemRoleType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\EngageementRoleType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EngageementRoleType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\RateType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RateType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\ProductType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ProductType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\FacilityRoleType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FacilityRoleType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\EngageementItemType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EngageementItemType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\FacilityType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FacilityType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\RelationshipType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RelationshipType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\PartyRoleType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PartyRoleType.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="BD\Flages\ContactMechanismType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ContactMechanismType.generated.cs</LastGenOutput>
+    </Content>
+    <None Include="Code\Core.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Core1.txt</LastGenOutput>
+    </None>
+    <Content Include="Code\Core1.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Core.ttinclude</DependentUpon>
+    </Content>
+    <None Include="BD\Flages\T4\EnumFromDB.old.ttinclude" />
+    <None Include="BD\Flages\T4\EnumFromDB.ttinclude" />
+    <None Include="BD\Flages\T4\RelationshipType.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Controller.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Folder.Partials.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Folder.Script.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Routes.Create.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Routes.Delete.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Routes.Index.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Routes.Routes.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Routes.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Routes.Update.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Create.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Delete.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Form.Elements.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Form.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Index.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Table.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Update.ttinclude" />
+    <None Include="cshtml\Views\L1.MM\L1.MM.Views.Views.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Controller.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Folder.Partials.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Folder.Script.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Routes.Create.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Routes.Delete.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Routes.Index.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Routes.Routes.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Routes.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Routes.Update.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Create.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Delete.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Form.Elements.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Form.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Index.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Table.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Update.ttinclude" />
+    <None Include="cshtml\Views\L1.M\L1.M.Views.Views.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Folder.Partials.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Folder.Script.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Routes.Create.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Routes.Delete.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Routes.Index.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Routes.Routes.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Routes.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Routes.Update.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Create.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Delete.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Form.Elements.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Form.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Index.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Table.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Update.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Views.Views.ttinclude" />
+    <None Include="cshtml\Views\L1\L1.Controller.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Controller.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Folder.Partials.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Folder.Script.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Routes.Create.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Routes.Delete.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Routes.Index.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Routes.Routes.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Routes.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Routes.Update.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Create.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Delete.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Form.Elements.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Form.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Index.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Table.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Update.ttinclude" />
+    <None Include="cshtml\Views\L2.MM\L2.MM.Views.Views.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Controller.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Folder.Partials.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Folder.Script.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Routes.Create.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Routes.Delete.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Routes.Index.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Routes.Routes.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Routes.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Routes.Update.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Create.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Delete.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Form.Elements.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Form.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Index.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Table.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Update.ttinclude" />
+    <None Include="cshtml\Views\L2.M\L2.M.Views.Views.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Controller.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Folder.Partials.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Folder.Script.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Routes.Create.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Routes.Delete.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Routes.Index.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Routes.Routes.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Routes.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Routes.Update.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Create.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Delete.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Form.Elements.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Form.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Index.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Table.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Undelete.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Update.ttinclude" />
+    <None Include="cshtml\Views\L2\L2.Views.Views.ttinclude" />
+    <None Include="cshtml\Views\Main.Gen - Copy.ttinclude" />
+    <None Include="cshtml\Views\Main.Gen.ttinclude" />
+    <None Include="cshtml\Views\Main.ttinclude" />
+    <None Include="cshtml\Views\MultipleOutputHelper.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,42 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<# o = "Index";  #>
+ @model  <#= IndexClass_CodeClass.FullName #>
+<script id="<#=bs#>_<#=Fs#>_Template" type="text/kendo-tmpl">
+
+    <div class='col-sm-2'>
+        <div class="well well-sm">
+            <ul class="nav nav-pills nav-stacked">
+ 				<li><a href="javascript:g_Router.navigate(String.format('/<#=Bs#>/{0}/<#=Fs#>/Create?<#=B#>Name={1}', <#=bs#>_<#=B#>_ID,<#=bs#>_<#=B#>_Name ))">@Globale.Create</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class='col-sm-10'>
+        <div class="panel panel-default" id="<#=bs#>_<#=Fs#>_Table_Viewer">
+		           
+				    <div class="k-loading-mask" style="width:100%;height:100%"><span class="k-loading-text"></span><div class="k-loading-image"><div class="k-loading-color"></div></div></div>
+					
+					  <#@ include file="L2.Views.Table.ttinclude" #>
+
+        </div>
+    </div>
+
+</script>
+
+
+
+<script>
+    function <#=bs#>_<#=Fs#>_AdditionalData(data) {
+
+
+    }
+    function <#=bs#>_<#=Fs#>_ShowDetails(e) {
+
+    }
+
+</script>
+
+
+<script id="<#=bs#>_<#=Fs#>_Table_Template" type="text/kendo-tmpl">
+
+	   <#@ include file="L2.Views.Table.ttinclude" #>
+</script>

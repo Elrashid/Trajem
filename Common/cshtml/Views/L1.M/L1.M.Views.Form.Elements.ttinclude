@@ -1,0 +1,199 @@
+﻿<#@ include file="..\Main.ttinclude" once="true" #>
+<#
+DisplayElement displayElement =  get_Type(propCode);
+switch (displayElement.Element )
+ 
+    {
+		  case DisplayElemenType.TextRTL :
+		  #>
+			  
+						<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+						    @Html.TextBoxFor(model => model.<#=propCode.Name#>, new { @class = "form-control", style = "direction:RTL;" })
+ 						<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		 
+		  <#
+		  break;
+		  case DisplayElemenType.Email :
+		  #>
+		  	<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+                     @Html.TextBoxFor(model => model.<#=propCode.Name#>, new { @class = "form-control" , @type="email" })
+						<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		   
+		    <#
+		   break;
+		  case DisplayElemenType.Text :
+		   #>
+			 
+						<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+                     @Html.TextBoxFor(model => model.<#=propCode.Name#>, new { @class = "form-control"})
+						<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+			 
+		  <#
+		  break;
+		  case DisplayElemenType.AreaRTL :
+		   #>
+			 <label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+			 @Html.TextAreaFor(model =>  model.<#=propCode.Name#>, new { @class = " form-control", style = "direction:RTL;" }) 
+ 			 <span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		  <#
+		  break;
+		  case DisplayElemenType.Area :
+		   #>
+			 
+			   <label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@Html.TextAreaFor(model => model.<#=propCode.Name#>, new { @class = " form-control" }) 
+				 <span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+			
+		  <#
+		   break;
+		  case DisplayElemenType.Tel :
+		   #>
+		   						@MvcHtmlString.Create("<script>function <#=bs#>_<#=o#>_<#=item.Type#>_<#=displayElement.Info#>AreaCode_filter() { return { id: $('\\#<#=displayElement.Info#>CountryCode').val() }; }<\\/script>")
+						<label for="<#=displayElement.Info#>ContactNumber"> @Html.DisplayNameFor(model => model.<#=displayElement.Info#>ContactNumber)</label>
+						<table width="100%">
+						<tr>
+						<td>
+						@(Html.Kendo().DropDownListFor(model => model.<#=displayElement.Info#>CountryCode).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("CountryCodeID").DataValueField("CountryCodeID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=displayElement.Info#>CountryCode_Read", "Home")); }).ToClientTemplate())
+						</td>
+						<td>
+						@(Html.Kendo().DropDownListFor(model => model.<#=displayElement.Info#>AreaCode).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("AreaCodeID").DataValueField("AreaCodeID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=displayElement.Info#>AreaCode_Read", "<#=c#>").Data("<#=bs#>_<#=o#>_<#=item.Type#>_<#=displayElement.Info#>AreaCode_filter")).ServerFiltering(true); }).Enable(false).AutoBind(false).CascadeFrom("<#=displayElement.Info#>CountryCode").ToClientTemplate())
+						</td>
+						<td>
+                     @Html.TextBoxFor(model => model.<#=displayElement.Info#>ContactNumber, new { @class = "form-control"})
+ 						</td>
+						</tr>
+						</table>
+						<span class="k-invalid-msg" data-for="<#=displayElement.Info#>CountryCode"></span>
+						<span class="k-invalid-msg" data-for="<#=displayElement.Info#>AreaCode"></span>
+						<span class="k-invalid-msg" data-for="<#=displayElement.Info#>ContactNumber"></span>
+			 
+		  <#
+		   break;
+		 case DisplayElemenType.NameAr :
+		   #>
+					<label for="Ar<#=displayElement.Info#>FirstName"> @Html.DisplayNameFor(model => model.Ar<#=displayElement.Info#>FirstName)</label>
+					<table width="100%" style="direction:RTL;">
+					<tr>
+					<td>
+					@Html.TextBoxFor(m => m.Ar<#=displayElement.Info#>FirstName, new { @class = " form-control", style = "direction:RTL;" , placeholder = Html.DisplayNameFor(model => model.Ar<#=displayElement.Info#>FirstName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.Ar<#=displayElement.Info#>MiddleName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.Ar<#=displayElement.Info#>MiddleName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.Ar<#=displayElement.Info#>LastName, new { @class = " form-control", style = "direction:RTL;", placeholder = Html.DisplayNameFor(model => model.Ar<#=displayElement.Info#>LastName) })
+					</td>
+					</tr>
+					</table>
+					<span class="k-invalid-msg" data-for="Ar<#=displayElement.Info#>FirstName"></span>
+					<span class="k-invalid-msg" data-for="Ar<#=displayElement.Info#>MiddleName"></span>
+					<span class="k-invalid-msg" data-for="Ar<#=displayElement.Info#>LastName"></span>
+			 
+		  <#
+		   break;
+			 case DisplayElemenType.NameEn :
+		   #>
+					<label for="En<#=displayElement.Info#>FirstName"> @Html.DisplayNameFor(model => model.En<#=displayElement.Info#>FirstName)</label>
+					<table width="100%">
+					<tr>
+					<td>
+					@Html.TextBoxFor(m => m.En<#=displayElement.Info#>FirstName, new { @class = " form-control",  placeholder = Html.DisplayNameFor(model => model.En<#=displayElement.Info#>FirstName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.En<#=displayElement.Info#>MiddleName, new { @class = " form-control",  placeholder = Html.DisplayNameFor(model => model.En<#=displayElement.Info#>MiddleName) })
+					</td>
+					<td>
+					@Html.TextBoxFor(m => m.En<#=displayElement.Info#>LastName, new { @class = " form-control",  placeholder = Html.DisplayNameFor(model => model.En<#=displayElement.Info#>LastName) })
+					</td>
+					</tr>
+					</table>
+					<span class="k-invalid-msg" data-for="En<#=displayElement.Info#>FirstName"></span>
+					<span class="k-invalid-msg" data-for="En<#=displayElement.Info#>MiddleName"></span>
+					<span class="k-invalid-msg" data-for="En<#=displayElement.Info#>LastName"></span>
+			 
+		  <#
+		   break;
+		  case DisplayElemenType.Date :
+		   #>
+
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@Html.Kendo().DatePickerFor(model => model.<#=propCode.Name#>).Format("yyyy/MM/dd").ParseFormats(new string[] { "yyyy/MM/dd" }).HtmlAttributes(new { Style = " width:100%;" }).ToClientTemplate()
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+
+		   <# 
+		   break;
+			  case DisplayElemenType.MultiSelect :
+		   #>
+
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				  @(Html.Kendo().MultiSelectFor(model => model.<#=propCode.Name#>).HtmlAttributes(new { Style = " width:100%;" })
+				.AutoBind(false).DataTextField("Name").DataValueField("ID").Placeholder(Law.Core.BL.Resorses.Web.Globale.Select).MaxSelectedItems(1)
+				.DataSource(source =>{source.Read(read =>{read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_Read", "Home");}).ServerFiltering(true);}).ToClientTemplate())
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+
+		   <# 
+		break;
+		  case DisplayElemenType.Integer :
+		   #>
+
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@Html.Kendo().IntegerTextBoxFor(m => m.<#=propCode.Name#>).Min(0).Max(<#=displayElement.Info#>).Value(0).HtmlAttributes(new { Style = " width:100%;" }).ToClientTemplate()
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+
+		   <# 
+			 break;
+		     case DisplayElemenType.Decimal :
+		   #>
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@Html.Kendo().NumericTextBoxFor(m => m.<#=propCode.Name#>).Min(0).Max(<#=displayElement.Info#>).Value(0).HtmlAttributes(new { Style = " width:100%;" }).ToClientTemplate()
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+
+		   <# 
+		   break;
+		  case DisplayElemenType.DropDown :
+		   #>
+		<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@(Html.Kendo().DropDownListFor(model => model.<#=propCode.Name#>).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_Read", "Home")); }).ToClientTemplate())
+ 				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		  <#
+		   break;
+		 case DisplayElemenType.DropDownAutoBind :
+		   #>
+			<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@(Html.Kendo().DropDownListFor(model => model.<#=propCode.Name#>).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_Read", "Home")); }).ToClientTemplate())
+ 				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		  <#
+		   break;
+		  case DisplayElemenType.Cascade :
+
+		   #>
+		   				@MvcHtmlString.Create("<script>function <#=bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_filter() { return { id: $('\\#<#=displayElement.Info#>').val() }; }<\\/script>")
+
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@(Html.Kendo().DropDownListFor(model => model.<#=propCode.Name#>).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_Read", "Home").Data("<#=bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_filter")).ServerFiltering(true); }).Enable(false).AutoBind(false).CascadeFrom("<#=displayElement.Info#>").ToClientTemplate())
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		  <#
+		    break;
+			  case DisplayElemenType.DropDownWithFilter :
+		#>
+		      @MvcHtmlString.Create("<script>function <#=bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_filter() { return { id: <#=displayElement.Info#> }; }<\\/script>")
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@(Html.Kendo().DropDownListFor(model => model.<#=propCode.Name#>).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_Read", "Home").Data("<#=bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_filter")).ServerFiltering(true); }).ToClientTemplate())
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		  <#
+		  break;
+		 case DisplayElemenType.DropDownWithFilterAutoBind :
+		#>
+		      @MvcHtmlString.Create("<script>function <#=bs#>_<#=Fs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_filter() { return { id: <#=displayElement.Info#> }; }<\\/script>")
+				<label for="<#=propCode.Name#>"> @Html.DisplayNameFor(model => model.<#=propCode.Name#>)</label>
+				@(Html.Kendo().DropDownListFor(model => model.<#=propCode.Name#>).HtmlAttributes(new { Style = " width:100%;" }).DataTextField("Name").DataValueField("ID").DataSource(source => { source.Read(read => read.Action("<#=Bs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_Read", "Home").Data("<#=bs#>_<#=Fs#>_<#=o#>_<#=item.Type#>_<#=propCode.Name#>_filter")).ServerFiltering(true); }).ToClientTemplate())
+				<span class="k-invalid-msg" data-for="<#=propCode.Name#>"></span>
+		  <#
+		  break;
+		  break;
+      default:
+		    break;
+    }
+#>
+
+ 
